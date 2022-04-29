@@ -6,7 +6,7 @@
 
 OR[或者]<br>
 
-wget https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/ubuntu-sugarchain-miner-en.sh
+wget https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/ubuntu-sugarchain-miner-en.sh<br>
 ./ubuntu-sugarchain-miner-en.sh
 <br><br>
 
