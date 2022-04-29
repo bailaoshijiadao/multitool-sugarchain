@@ -15,5 +15,6 @@ wget https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/mast
 2  - STOP sugar miner[停止糖开采]
 3  - Modify mining configuration[修改开采配置]
 
+![screen1](https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/image/menu1.png)
 
-
+![screen1](https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/image/menu2.png)
