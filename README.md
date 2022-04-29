@@ -18,3 +18,5 @@ wget https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/mast
 
 ![screen1](https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/image/menu1.png)<br>
 ![screen1](https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/image/menu2.png)<br>
+<br><br>
+SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
