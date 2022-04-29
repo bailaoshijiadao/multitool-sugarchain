@@ -1,4 +1,4 @@
 "pool1":"stratum-eu.rplant.xyz:17042",
 "pool2":"stratum-asia.rplant.xyz:17042",
 "pool3":"stratum-na.rplant.xyz:17042",
-"pool4":"stratum+tcp://39.98.39.1:6678"
+"pool4":"39.98.39.1:6678"
