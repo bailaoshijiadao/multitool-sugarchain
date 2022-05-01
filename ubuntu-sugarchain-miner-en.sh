@@ -223,6 +223,7 @@ function Start_sugar_miner(){
 	fi
 	echo -e "${CYAN}Sugarchain cpuminer setup starting,you can press [CTRL+C] to cancel.${NC}"
 	sleep 5
+	cd ~/
 	if [[ -f /home/$USER/sugarchain_miner_conf.json ]]; then
 		read_config
 	else
