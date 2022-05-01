@@ -80,7 +80,7 @@ function creat_sugarchain_miner_conf(){
 	
 	while true 
 	do
-		miner_cores=$(whiptail --inputbox "Please enter your miner cores" 8 85 3>&1 1>&2 2>&3)
+		miner_cores=$(whiptail --inputbox "Please enter your miner cores(optional), defaults to 100% CPU" 8 85 3>&1 1>&2 2>&3)
 		if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
 			string_limit_check_mark "Miner cores $miner_cores format is valid................................." "Miner cores ${GREEN}$miner_cores${CYAN} format is valid................................."
 			sleep 1
@@ -93,7 +93,7 @@ function creat_sugarchain_miner_conf(){
 	
 	while true 
 	do
-		machinary_code=$(whiptail --inputbox "Please enter your machinary code" 8 85 3>&1 1>&2 2>&3)
+		machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 85 3>&1 1>&2 2>&3)
 		if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
 			string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
 			sleep 1
