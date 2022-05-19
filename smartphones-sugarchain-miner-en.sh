@@ -248,7 +248,7 @@ function Start_sugar_miner(){
 	fi
 
 	string_limit_check_mark "Start sugar miner succeeded................................." "Start sugar miner succeeded${GREEN}${CYAN} ................................."
-	echo -e "${YELLOW}sugarmaker 2.5.0-sugar4 by Kanon${NC}"
+	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
 	echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 }
@@ -276,18 +276,16 @@ echo -e "${BLUE}"
 figlet -f big "SugarChain"
 echo -e "${YELLOW}================================================================${NC}"
 echo -e "${GREEN}Version: $dversion${NC}"
-echo -e "${GREEN}OS: Ubuntu 16/18${NC}"
+echo -e "${GREEN}OS: Android > 7.0${NC}"
 echo -e "${GREEN}Author:bailaoshi${NC}"
-echo -e "${GREEN}Special thanks to cryptozeny${NC}"
+echo -e "${GREEN}Special thanks to Kanon${NC}"
 echo -e "${YELLOW}================================================================${NC}"
 echo -e "${CYAN}1  - Start sugar miner${NC}"
 echo -e "${CYAN}2  - Modify mining configuration${NC}"
 echo -e "${YELLOW}================================================================${NC}"
-echo -e "${YELLOW}************  cpuminer-opt v3.8.8.1.7-sugarchain  ************* ${NC}"
-echo -e "${YELLOW}   A CPU miner with multi algo support and optimized for CPUs   ${NC}"
-echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)${NC}"
+echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
+echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
+echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 
 read -rp "Pick an option and hit ENTER: "
 
