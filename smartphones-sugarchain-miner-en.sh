@@ -262,7 +262,7 @@ fi
 
 if ! whiptail -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}Installing whiptail....${NC}"
-	apt install whiptail > /dev/null 2>&1
+	apt install whiptail -y > /dev/null 2>&1
 fi
 
 #install JQ
