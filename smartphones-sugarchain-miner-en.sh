@@ -55,7 +55,7 @@ function Modify_sugarchain_miner_conf(){
 		curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
 	fi
 	
-	if whiptail --yesno "Would you like import old settings from sugar address?" 8 40; then
+	if whiptail --yesno "Would you like use old sugar address?" 8 40; then
 		string_limit_check_mark "sugar address $sugar_address................................." "sugar address ${GREEN}$sugar_address${CYAN}................................."
 		sleep 2
 	else
@@ -76,7 +76,7 @@ function Modify_sugarchain_miner_conf(){
 	pool=$(cat ${CRTDIR}/pool-list.json)
 	#pool=$(curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
 	
-	if whiptail --yesno "Would you like import old pool:\n$pool?" 8 40; then
+	if whiptail --yesno "Would you like use old pool:\n$pool?" 8 40; then
 		string_limit_check_mark "Pool address $pool_address................................." "Pool address ${GREEN}$pool_address${CYAN}................................."
 		sleep 2
 	else
@@ -94,7 +94,7 @@ function Modify_sugarchain_miner_conf(){
 		done
 	fi
 	
-	if whiptail --yesno "Would you like import old miner cores:\n$miner_cores cores?" 8 40; then
+	if whiptail --yesno "Would you like use old miner cores:\n$miner_cores cores?" 8 40; then
 		string_limit_check_mark "Miner cores $miner_cores................................." "Miner cores ${GREEN}$miner_cores${CYAN}................................."
 		sleep 2
 	else
@@ -112,7 +112,7 @@ function Modify_sugarchain_miner_conf(){
 		done
 	fi
 	
-	if whiptail --yesno "Would you like import old machinary code:\n$machinary_code?" 8 40; then
+	if whiptail --yesno "Would you like use old machinary code:\n$machinary_code?" 8 40; then
 		string_limit_check_mark "Machinary code $machinary_code................................." "Machinary code ${GREEN}$machinary_code${CYAN}................................."
 		sleep 2
 	else
