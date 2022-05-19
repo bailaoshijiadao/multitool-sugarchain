@@ -63,7 +63,7 @@ function creat_sugarchain_miner_conf(){
 		fi
 	done
 	
-	pool=$(cat /home/$USER/pool-list.json)
+	pool=$(cat ${CRTDIR}/pool-list.json)
 	#pool=$(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
 
 	while true 
