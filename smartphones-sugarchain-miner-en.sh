@@ -167,8 +167,7 @@ function Start_sugar_miner(){
 }
 EOF
 	
-	if [[ -f ${CRTDIR}/sugarchain-aarch64 ]]; then
-	else
+	if [[! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
 		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarchain-aarch64/main/sugarchain-aarch64
 		chmod 777 sugarchain-aarch64
 	fi
