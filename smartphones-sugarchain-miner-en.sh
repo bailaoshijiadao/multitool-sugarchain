@@ -11,6 +11,7 @@ NC='\033[0m'
 dversion="v1.0"
 CRTDIR=$(pwd)
 
+
 function string_limit_check_mark(){
 	if [[ -z "$2" ]]; then
 		string="$1"
@@ -42,6 +43,103 @@ function string_limit_x_mark(){
 }
 
 
+function Modify_sugarchain_miner_conf(){
+
+	if [[ -f ${CRTDIR}/sugarchain_miner_conf.json ]]; then
+		read_config
+	fi
+	
+	if [[ -f ${CRTDIR}/pool-list.json ]]; then
+		echo
+	else
+		curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
+	fi
+	
+	if whiptail --yesno "Would you like import old settings from sugar address?" 8 40; then
+		string_limit_check_mark "sugar address $sugar_address................................." "sugar address ${GREEN}$sugar_address${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$sugar_address" == sugar* ]]; then
+				string_limit_check_mark "sugar address $sugar_address  format is valid................................." "sugar address ${GREEN}$sugar_address${CYAN}  format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Sugar address $sugar_address is not valid ..............................."
+				sleep 5			
+			fi
+		done
+	fi
+	
+	pool=$(cat ${CRTDIR}/pool-list.json)
+	#pool=$(curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
+	
+	if whiptail --yesno "Would you like import old pool:\n$pool?" 8 40; then
+		string_limit_check_mark "Pool address $pool_address................................." "Pool address ${GREEN}$pool_address${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			pool_address=$(whiptail --inputbox "Please enter your Pool address or IP\nChoose from the following mining pools\n$pool" 16 40 3>&1 1>&2 2>&3)
+			if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
+				string_limit_check_mark "Pool address $pool_address format is valid................................." "Pool address ${GREEN}$pool_address${CYAN} format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Pool address $pool_address1 is not valid ..............................."
+				sleep 5
+			fi
+		done
+	fi
+	
+	if whiptail --yesno "Would you like import old miner cores:\n$miner_cores cores?" 8 40; then
+		string_limit_check_mark "Miner cores $miner_cores................................." "Miner cores ${GREEN}$miner_cores${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			miner_cores=$(whiptail --inputbox "Please enter your miner cores(optional), defaults to 100% CPU" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
+				string_limit_check_mark "Miner cores $miner_cores format is valid................................." "Miner cores ${GREEN}$miner_cores${CYAN} format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Miner cores $miner_cores is not valid ..............................."
+				sleep 5
+			fi
+		done
+	fi
+	
+	if whiptail --yesno "Would you like import old machinary code:\n$machinary_code?" 8 40; then
+		string_limit_check_mark "Machinary code $machinary_code................................." "Machinary code ${GREEN}$machinary_code${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
+				string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
+				sleep 1
+				break
+			fi
+		done
+	fi
+	
+	cat << EOF >  ${CRTDIR}/sugarchain_miner_conf.json
+{
+	"sugar_address":"${sugar_address}",
+	"pool_address":"${pool_address}",
+	"miner_cores":"${miner_cores}",
+	"machinary_code":"${machinary_code}"
+}
+EOF
+
+string_limit_check_mark "Modify mining configuration succeeded................................." "Modify mining configuration succeeded................................."
+}
+
+
 function creat_sugarchain_miner_conf(){
 
 	if [[ -f ${CRTDIR}/pool-list.json ]]; then
@@ -49,7 +147,7 @@ function creat_sugarchain_miner_conf(){
 	else
 		curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
 	fi
-
+	
 	while true 
 	do
 		sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 40 3>&1 1>&2 2>&3)
@@ -64,8 +162,8 @@ function creat_sugarchain_miner_conf(){
 	done
 	
 	pool=$(cat ${CRTDIR}/pool-list.json)
-	#pool=$(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
-
+	#pool=$(curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
+	
 	while true 
 	do
 		pool_address=$(whiptail --inputbox "Please enter your Pool address or IP\nChoose from the following mining pools\n$pool" 16 40 3>&1 1>&2 2>&3)
@@ -94,7 +192,7 @@ function creat_sugarchain_miner_conf(){
 	
 	while true 
 	do
-		machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 85 3>&1 1>&2 2>&3)
+		machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 40 3>&1 1>&2 2>&3)
 		if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
 			string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
 			sleep 1
@@ -111,8 +209,9 @@ function creat_sugarchain_miner_conf(){
 }
 EOF
 
-string_limit_check_mark "Modify mining configuration succeeded................................." "Modify mining configuration succeeded................................."
+string_limit_check_mark "Creat mining configuration succeeded................................." "Creat mining configuration succeeded................................."
 }
+
 
 function read_config(){
 	sugar_address=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.sugar_address')
@@ -132,40 +231,10 @@ function Start_sugar_miner(){
 	cd ~/
 	
 	if [[ -f ${CRTDIR}/sugarchain_miner_conf.json ]]; then
-		if whiptail --yesno "Would you like import old settings from sugarchain_conf?" 8 40; then
-			read_config
-		else
-			creat_sugarchain_miner_conf
-	fi
-	
-	if [[ "$sugar_address" == "" || "$sugar_address" != sugar* ]]; then
-		while true 
-		do
-			sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 40 3>&1 1>&2 2>&3)
-			if [[ "$sugar_address" == sugar* ]]; then
-				string_limit_check_mark "sugar address $sugar_address  format is valid................................." "sugar address ${GREEN}$sugar_address${CYAN}  format is valid................................."
-				sleep 1
-				break
-			else
-				string_limit_x_mark "Sugar address $sugar_address is not valid ..............................."
-				sleep 5			
-			fi
-		done
-	fi
-	
-	
-	if [[ "$pool_address" == "" || "$pool_address" != *.*.*:* || "$pool_address" != *.*.*.*:* ]]; then
+		read_config
+	else
 		creat_sugarchain_miner_conf
 	fi
-
-	cat << EOF >  ${CRTDIR}/sugarchain_miner_conf.json
-{
-	"sugar_address":"${sugar_address}",
-	"pool_address":"${pool_address}",
-	"miner_cores":"${miner_cores}",
-	"machinary_code":"${machinary_code}"
-}
-EOF
 	
 	if [[! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
 		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarchain-aarch64/main/sugarchain-aarch64
@@ -177,8 +246,7 @@ EOF
 	else
 		./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code
 	fi
-	screen -x -S $screen_name -p 0 -X stuff "$cmd"
-	screen -x -S $screen_name -p 0 -X stuff $'\n'
+
 	string_limit_check_mark "Start sugar miner succeeded................................." "Start sugar miner succeeded${GREEN}${CYAN} ................................."
 	echo -e "${YELLOW}sugarmaker 2.5.0-sugar4 by Kanon${NC}"
 	echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
@@ -186,25 +254,21 @@ EOF
 }
 
 
-
-if ! figlet -v > /dev/null 2>&1
-then
+if ! figlet -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}Installing figlet....${NC}"
 	apt install -y figlet > /dev/null 2>&1
 fi
 
 
-if ! whiptail -v > /dev/null 2>&1
-then
+if ! whiptail -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}Installing whiptail....${NC}"
 	apt install whiptail > /dev/null 2>&1
 fi
 
 #install JQ
-if jq --version > /dev/null 2>&1; 
-then
-  echo -e "${ARROW} ${YELLOW}Installing JQ....${NC}"
-  apt install jq -y > /dev/null 2>&1
+if ! jq --version > /dev/null 2>&1; then
+	echo -e "${ARROW} ${YELLOW}Installing JQ....${NC}"
+	apt install jq -y > /dev/null 2>&1
 fi
 
 sleep 1
@@ -236,7 +300,7 @@ read -rp "Pick an option and hit ENTER: "
  2) 
 
     sleep 1
-    creat_sugarchain_miner_conf
+    Modify_sugarchain_miner_conf
  ;;
 
     esac
