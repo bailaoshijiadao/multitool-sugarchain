@@ -328,7 +328,7 @@ do
 	echo -e "${YELLOW}================================================================${NC}"
 	echo -e "${GREEN}版本: $dversion${NC}"
 	echo -e "${GREEN}系统: Android > 7.0${NC}"
-	echo -e "${GREEN}作者:bailaoshi${NC}"
+	echo -e "${GREEN}作者: bailaoshi${NC}"
 	echo -e "${GREEN}特别感谢 Kanon${NC}"
 	echo -e "${YELLOW}================================================================${NC}"
 	echo -e "${CYAN}1  - 启动糖链开采[包含安装和设置钱包地址矿池等]后台运行${NC}"
