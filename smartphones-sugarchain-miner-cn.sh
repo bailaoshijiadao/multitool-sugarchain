@@ -82,7 +82,7 @@ function Modify_sugarchain_miner_conf(){
 	else
 		while true 
 		do
-			pool_address=$(whiptail --inputbox "请输入你的矿池地址或IP\n可以从下列中选择,中国可选择默认填入的矿池\n$pool" 16 40 @39.98.39.1:6678 3>&1 1>&2 2>&3)
+			pool_address=$(whiptail --inputbox "请输入你的矿池地址或IP\n可以从下列中选择,中国可选择默认填入的矿池\n$pool" 16 40 39.98.39.1:6678 3>&1 1>&2 2>&3)
 			if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
 				string_limit_check_mark "矿池地址 $pool_address 格式有效................................." "矿池地址 ${GREEN}$pool_address${CYAN} 格式有效................................."
 				sleep 1
@@ -167,7 +167,7 @@ function creat_sugarchain_miner_conf(){
 	
 	while true 
 	do
-		pool_address=$(whiptail --inputbox "请输入你的矿池地址或IP\n可以从下列中选择,中国选择IP格式的矿池\n$pool" 16 40 3>&1 1>&2 2>&3)
+		pool_address=$(whiptail --inputbox "请输入你的矿池地址或IP\n可以从下列中选择,中国可选择默认填入的矿池\n$pool" 16 40 39.98.39.1:6678 3>&1 1>&2 2>&3)
 		if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
 			string_limit_check_mark "矿池地址 $pool_address 格式有效................................." "矿池地址 ${GREEN}$pool_address${CYAN} 格式有效................................."
 			sleep 1
