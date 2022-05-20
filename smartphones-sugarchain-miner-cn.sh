@@ -264,7 +264,7 @@ sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/ter
 
 if ! figlet -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}安装 figlet 中....${NC}"
-	apt install -y figlet > /dev/null 2>&1
+	pkg install -y figlet > /dev/null 2>&1
 fi
 
 
