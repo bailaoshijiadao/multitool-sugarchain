@@ -215,11 +215,11 @@ string_limit_check_mark "Creat mining configuration succeeded...................
 
 function read_config(){
 	sugar_address=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.sugar_address')
-	string_limit_check_mark "sugar_address $sugar_address ................................." "sugar_address ${GREEN}$sugar_address${CYAN} ................................."
+	string_limit_check_mark "sugar address $sugar_address ................................." "sugar address ${GREEN}$sugar_address${CYAN} ................................."
 	pool_address=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.pool_address')
-	string_limit_check_mark "pool_address $pool_address ................................." "pool_address ${GREEN}$pool_address${CYAN} ................................."
+	string_limit_check_mark "pool address $pool_address ................................." "pool address ${GREEN}$pool_address${CYAN} ................................."
 	miner_cores=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.miner_cores')
-	string_limit_check_mark "miner_cores $miner_cores ................................." "miner_cores ${GREEN}$miner_cores${CYAN} ................................."
+	string_limit_check_mark "miner cores $miner_cores ................................." "miner cores ${GREEN}$miner_cores${CYAN} ................................."
 	machinary_code=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.machinary_code')
 	string_limit_check_mark "machinary code $machinary_code ................................." "machinary code ${GREEN}$machinary_code${CYAN} ................................."
 }
