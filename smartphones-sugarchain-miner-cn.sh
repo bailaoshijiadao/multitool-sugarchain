@@ -230,9 +230,7 @@ function Start_sugar_miner(){
 	echo -e "${CYAN}糖链开采安装程序启动时,您可以按[CTRL+C]取消${NC}"
 	sleep 5
 	cd ~/
-	echo -e "${CYAN}开始更换国内源并更新程序${NC}"
-	sleep 2
-	sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list &&pkg update && pkg upgrade&& pkg install git
+	
 	if [[ -f ${CRTDIR}/sugarchain_miner_conf.json ]]; then
 		read_config
 	else
@@ -258,6 +256,11 @@ function Start_sugar_miner(){
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 }
 
+
+echo -e "${CYAN}开始更换国内源并更新程序${NC}"
+sleep 2
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list &&pkg update && pkg upgrade&& pkg install git
+	
 
 if ! figlet -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}安装 figlet 中....${NC}"
