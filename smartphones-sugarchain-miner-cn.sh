@@ -245,11 +245,11 @@ function Start_sugar_miner(){
 	
 	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]; then
-		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口................................." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ................................."
+		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
 		Stop_sugar_miner
 	fi
 	
-	string_limit_check_mark "开始创建开采窗口................................." "开始创建开采窗口${GREEN}${CYAN} ................................."
+	string_limit_check_mark "开始创建开采窗口............................." "开始创建开采窗口${GREEN}${CYAN} ................................."
 	screen_name=$"sugarchain_screen"
 	screen -dmS $screen_name
 	
@@ -261,7 +261,7 @@ function Start_sugar_miner(){
 	screen -x -S $screen_name -p 0 -X stuff "$cmd"
 	screen -x -S $screen_name -p 0 -X stuff $'\n'
 	
-	string_limit_check_mark "已启动糖链开采,请自行看屏幕提示是否启动成功................................." "已启动糖链开采,请自行看屏幕提示是否启动成功${GREEN}${CYAN} ................................."
+	string_limit_check_mark "已启动糖链开采,请自行看屏幕提示是否启动成功......" "已启动糖链开采,请自行看屏幕提示是否启动成功${GREEN}${CYAN} ......"
 	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
@@ -280,9 +280,9 @@ function Stop_sugar_miner(){
 		cmd=$"exit";
 		screen -x -S $screen_name -p 0 -X stuff "$cmd"
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
-		string_limit_check_mark "停止采糖成功................................." "停止采糖成功${GREEN}${CYAN} ................................."
+		string_limit_check_mark "停止采糖成功....................................." "停止采糖成功${GREEN}${CYAN} ....................................."
 	else
-		string_limit_check_mark "未检测到开采窗口,停止开采失败................................." "未检测到开采窗口,停止开采失败${GREEN}${CYAN} ................................."
+		string_limit_check_mark "未检测到开采窗口,停止开采失败................" "未检测到开采窗口,停止开采失败${GREEN}${CYAN} ................"
 	fi
 	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 }
@@ -325,17 +325,17 @@ do
 	sleep 1
 	echo -e "${BLUE}"
 	figlet -f big "SugarChain"
-	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${GREEN}版本: $dversion${NC}"
 	echo -e "${GREEN}系统: Android > 7.0${NC}"
 	echo -e "${GREEN}作者: bailaoshi${NC}"
 	echo -e "${GREEN}特别感谢 Kanon${NC}"
-	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${CYAN}1  - 启动糖链开采[包含安装和设置钱包地址矿池等]后台运行${NC}"
 	echo -e "${CYAN}2  - 停止糖链开采${NC}"
 	echo -e "${CYAN}3  - 修改开采配置[仅仅在需要修改时使用]${NC}"
 	echo -e "${CYAN}4  - 查看开采窗口,返回本窗口使用组合键[CTRL+A+D]${NC}"
-	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
