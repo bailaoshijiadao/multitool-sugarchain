@@ -242,22 +242,59 @@ function Start_sugar_miner(){
 		chmod 777 sugarchain-aarch64
 	fi
 	
-	if [[ "$miner_cores" == "" ]]; then
-		./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address
-	else
-		./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code
+	
+	check_results = `screen -ls`
+	if [[ $check_results =~ "sugarchain_screen" ]]; then
+		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口................................." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ................................."
+		Stop_sugar_miner
 	fi
 	
-	sleep 10
+	string_limit_check_mark "开始创建开采窗口................................." "开始创建开采窗口${GREEN}${CYAN} ................................."
+	screen_name=$"sugarchain_screen"
+	screen -dmS $screen_name
+	
+	if [[ "$miner_cores" == "" ]]; then
+		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address"
+	else
+		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+	fi
+	screen -x -S $screen_name -p 0 -X stuff "$cmd"
+	screen -x -S $screen_name -p 0 -X stuff $'\n'
 	
 	string_limit_check_mark "已启动糖链开采,请自行看屏幕提示是否启动成功................................." "已启动糖链开采,请自行看屏幕提示是否启动成功${GREEN}${CYAN} ................................."
+	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 }
 
 
-echo -e "${CYAN}开始更换国内源并更新程序${NC}"
+function Stop_sugar_miner(){
+	check_results = `screen -ls`
+	if [[ $check_results =~ "sugarchain_screen" ]]
+	then
+		screen_name=$"sugarchain_screen"
+		cmd=$"\003";
+		screen -x -S $screen_name -p 0 -X stuff "$cmd"
+		screen -x -S $screen_name -p 0 -X stuff $'\n'
+		cmd=$"exit";
+		screen -x -S $screen_name -p 0 -X stuff "$cmd"
+		screen -x -S $screen_name -p 0 -X stuff $'\n'
+		string_limit_check_mark "停止采糖成功................................." "停止采糖成功${GREEN}${CYAN} ................................."
+	else
+		string_limit_check_mark "未检测到开采窗口,停止开采失败................................." "未检测到开采窗口,停止开采失败${GREEN}${CYAN} ................................."
+	fi
+}
+
+function see_screen(){
+	
+	if screen -ls > /dev/null 2>&1
+	then
+		screen -r
+	fi
+}
+
+echo -e "${CYAN}开始更换国内源${NC}"
 sleep 2
 sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list
 	
@@ -279,34 +316,54 @@ if ! jq --version > /dev/null 2>&1; then
 	apt install jq -y > /dev/null 2>&1
 fi
 
-sleep 1
-echo -e "${BLUE}"
-figlet -f big "SugarChain"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${GREEN}版本: $dversion${NC}"
-echo -e "${GREEN}系统: Android > 7.0${NC}"
-echo -e "${GREEN}作者:bailaoshi${NC}"
-echo -e "${GREEN}特别感谢 Kanon${NC}"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${CYAN}1  - 启动糖链开采[包含安装和设置钱包地址矿池等]${NC}"
-echo -e "${CYAN}2  - 修改开采配置[仅仅在需要修改时使用]${NC}"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
-echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
-echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
+if ! screen -v > /dev/null 2>&1; then
+apt install screen -y > /dev/null 2>&1
+fi
 
-read -rp "选择一个选项并按回车键: "
+while :
+do
+	sleep 1
+	echo -e "${BLUE}"
+	figlet -f big "SugarChain"
+	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${GREEN}版本: $dversion${NC}"
+	echo -e "${GREEN}系统: Android > 7.0${NC}"
+	echo -e "${GREEN}作者:bailaoshi${NC}"
+	echo -e "${GREEN}特别感谢 Kanon${NC}"
+	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${CYAN}1  - 启动糖链开采[包含安装和设置钱包地址矿池等]后台运行${NC}"
+	echo -e "${CYAN}2  - 停止糖链开采${NC}"
+	echo -e "${CYAN}3  - 修改开采配置[仅仅在需要修改时使用]${NC}"
+	echo -e "${CYAN}4  - 查看开采窗口,返回本窗口使用组合键[CTRL+A+D]${NC}"
+	echo -e "${YELLOW}================================================================${NC}"
+	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
+	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
+	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 
-  case "$REPLY" in
+	read -rp "请输入数字选项并按回车键: "
 
- 1)
-    sleep 1
-    Start_sugar_miner
- ;;
- 2) 
+	  case "$REPLY" in
 
-    sleep 1
-    Modify_sugarchain_miner_conf
- ;;
+	 1)
+		sleep 1
+		Start_sugar_miner
+	 ;;
+	 2) 
 
-    esac
+		sleep 1
+		Stop_sugar_miner
+	 ;;
+	 3) 
+
+		sleep 1
+		Modify_sugarchain_miner_conf
+	 ;;
+	 4) 
+
+		sleep 1
+		see_screen
+	 ;;
+
+		esac
+
+done
