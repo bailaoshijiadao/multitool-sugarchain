@@ -24,7 +24,7 @@ function string_limit_check_mark(){
 		string_diff=$((string_leght_color-string_leght))
 		string=${string_color::70+string_diff}
 	fi
-	echo -e "${ARROW} ${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
+	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
 }
 
 function string_limit_x_mark(){
@@ -39,7 +39,7 @@ function string_limit_x_mark(){
 		string_diff=$((string_leght_color-string_leght))
 		string=${string_color::50+string_diff}
 	fi
-	echo -e "${ARROW} ${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
+	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
 }
 
 
