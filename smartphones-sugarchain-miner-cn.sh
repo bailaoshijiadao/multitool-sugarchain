@@ -243,7 +243,7 @@ function Start_sugar_miner(){
 	fi
 	
 	
-	check_results = `screen -ls`
+	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]; then
 		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口................................." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ................................."
 		Stop_sugar_miner
@@ -270,7 +270,7 @@ function Start_sugar_miner(){
 
 
 function Stop_sugar_miner(){
-	check_results = `screen -ls`
+	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]
 	then
 		screen_name=$"sugarchain_screen"
@@ -284,10 +284,10 @@ function Stop_sugar_miner(){
 	else
 		string_limit_check_mark "未检测到开采窗口,停止开采失败................................." "未检测到开采窗口,停止开采失败${GREEN}${CYAN} ................................."
 	fi
+	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 }
 
 function see_screen(){
-	
 	if screen -ls > /dev/null 2>&1
 	then
 		screen -r
