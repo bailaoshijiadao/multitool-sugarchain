@@ -317,7 +317,7 @@ if ! jq --version > /dev/null 2>&1; then
 fi
 
 if ! screen -v > /dev/null 2>&1; then
-apt install screen -y > /dev/null 2>&1
+	pkg install screen -y > /dev/null 2>&1
 fi
 
 while :
