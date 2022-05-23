@@ -15,14 +15,14 @@ CRTDIR=$(pwd)
 function string_limit_check_mark(){
 	if [[ -z "$2" ]]; then
 		string="$1"
-		string=${string::70}
+		string=${string::100}
 	else
 		string=$1
 		string_color=$2
 		string_leght=${#string}
 		string_leght_color=${#string_color}
 		string_diff=$((string_leght_color-string_leght))
-		string=${string_color::70+string_diff}
+		string=${string_color::100+string_diff}
 	fi
 	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
 }
@@ -261,7 +261,7 @@ function Start_sugar_miner(){
 	screen -x -S $screen_name -p 0 -X stuff "$cmd"
 	screen -x -S $screen_name -p 0 -X stuff $'\n'
 	
-	string_limit_check_mark "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window......" "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window${GREEN}${CYAN} ......"
+	string_limit_check_mark "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window" "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window${GREEN}${CYAN}"
 	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
