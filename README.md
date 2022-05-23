@@ -9,9 +9,10 @@
 <summary>Click to view the English description</summary><br>
 # MULTITOOL-SugarChain OPERATORS<br>
 <b>1) HOW RUN SCRIPT</b><br>
+
 Android mobile mining<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/smartphones-sugarchain-miner-en.sh)```
-```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/ubuntu-sugarchain-miner-en.sh)```
+
 Ubuntu mining<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/ubuntu-sugarchain-miner-en.sh)```
 
