@@ -1,4 +1,11 @@
 # MULTITOOL-SugarChain OPERATORS
+<details>
+
+<summary>点击查看中文说明</summary>
+
+# MULTITOOL-SugarChain OPERATORS
+
+</details>
 
 <b>1) HOW RUN SCRIPT[如何使用]</b>
 
