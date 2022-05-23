@@ -3,8 +3,13 @@
 
 # 多工具-糖链一键操作
 
-<b>1) 如何使用</b><br>
+<b>1) 如何使用</b><br><br>
 安卓手机开采<br>
+
+①下载termux<br>
+```https://wwr.lanzoui.com/iy7ti04z6gda```
+
+②打开termux后复制此命令粘贴并回车
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/blob/main/smartphones-sugarchain-miner-cn.sh)```
 </details>
 <details>
@@ -12,9 +17,14 @@
 
 # MULTITOOL-SugarChain OPERATORS<br>
 
-<b>1) HOW RUN SCRIPT</b><br>
+<b>1) HOW RUN SCRIPT</b><br><br>
 
 Android mobile mining<br>
+
+①Download termux<br>
+```https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_universal.apk```
+
+② After opening termux, copy this command, paste and enter<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/smartphones-sugarchain-miner-en.sh)```
 
 Ubuntu mining<br>
