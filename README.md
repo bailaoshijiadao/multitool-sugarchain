@@ -1,12 +1,12 @@
 <details>
-<summary>点击查看中文说明</summary>
+<summary>点击查看中文说明</summary><br>
 # 多工具-糖链一键操作<br>
 <b>1) 如何使用</b><br>
 安卓手机开采<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/blob/main/smartphones-sugarchain-miner-cn.sh)```
 </details>
 <details>
-<summary>Click to view the English description</summary>
+<summary>Click to view the English description</summary><br>
 # MULTITOOL-SugarChain OPERATORS<br>
 <b>1) HOW RUN SCRIPT</b><br>
 Android mobile mining<br>
