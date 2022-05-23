@@ -261,7 +261,7 @@ function Start_sugar_miner(){
 	screen -x -S $screen_name -p 0 -X stuff "$cmd"
 	screen -x -S $screen_name -p 0 -X stuff $'\n'
 	
-	string_limit_check_mark "已启动糖链开采,请自行看屏幕提示是否启动成功......" "已启动糖链开采,请自行看屏幕提示是否启动成功${GREEN}${CYAN} ......"
+	string_limit_check_mark "已启动糖链开采,请10秒后按4可进入查看开采窗口......" "已启动糖链开采,请10秒后按4可进入查看开采窗口${GREEN}${CYAN} ......"
 	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
@@ -307,17 +307,17 @@ fi
 
 if ! whiptail -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}安装 whiptail 中....${NC}"
-	apt install whiptail -y > /dev/null 2>&1
+	pkg install -y whiptail > /dev/null 2>&1
 fi
 
 #install JQ
 if ! jq --version > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}安装 JQ 中....${NC}"
-	apt install jq -y > /dev/null 2>&1
+	pkg install -y jq > /dev/null 2>&1
 fi
 
 if ! screen -v > /dev/null 2>&1; then
-	pkg install screen -y > /dev/null 2>&1
+	pkg install -y screen > /dev/null 2>&1
 fi
 
 while :
@@ -345,22 +345,22 @@ do
 	  case "$REPLY" in
 
 	 1)
-		sleep 1
+		sleep 2
 		Start_sugar_miner
 	 ;;
 	 2) 
 
-		sleep 1
+		sleep 2
 		Stop_sugar_miner
 	 ;;
 	 3) 
 
-		sleep 1
+		sleep 2
 		Modify_sugarchain_miner_conf
 	 ;;
 	 4) 
 
-		sleep 1
+		sleep 2
 		see_screen
 	 ;;
 
