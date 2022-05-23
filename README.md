@@ -6,7 +6,7 @@
 <b>1) 如何使用</b><br><br>
 安卓手机开采<br>
 
-①下载termux<br>
+①下载termux并安装<br>
 ```https://wwr.lanzoui.com/iy7ti04z6gda```
 
 ②打开termux后复制此命令粘贴并回车
@@ -21,7 +21,7 @@
 
 Android mobile mining<br>
 
-①Download termux<br>
+①Download termux and install<br>
 ```https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_universal.apk```
 
 ② After opening termux, copy this command, paste and enter<br>
