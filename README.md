@@ -9,7 +9,7 @@
 ①下载termux并安装<br>
 ```https://wwr.lanzoui.com/iy7ti04z6gda```
 
-②打开termux后复制此命令粘贴并回车
+②打开termux后复制此命令粘贴并回车<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/blob/main/smartphones-sugarchain-miner-cn.sh)```
 </details>
 <details>
