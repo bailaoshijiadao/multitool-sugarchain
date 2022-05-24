@@ -10,7 +10,7 @@
 ```https://wwr.lanzoui.com/iy7ti04z6gda```
 
 ②打开termux后复制此命令粘贴并回车<br>
-```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/blob/main/smartphones-sugarchain-miner-cn.sh)```
+```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/smartphones-sugarchain-miner-cn.sh)```
 
 <br><br><br>
 如果你觉得这个有用，可以捐助我。<br>
