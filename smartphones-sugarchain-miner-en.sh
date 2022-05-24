@@ -254,9 +254,9 @@ function Start_sugar_miner(){
 	screen -dmS $screen_name
 	
 	if [[ "$miner_cores" == "" ]]; then
-		cmd=$"./cpuminer -a yespower -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
 	else
-		cmd=$"./cpuminer -a yespower -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
 	fi
 	screen -x -S $screen_name -p 0 -X stuff "$cmd"
 	screen -x -S $screen_name -p 0 -X stuff $'\n'
