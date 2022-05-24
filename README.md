@@ -13,8 +13,8 @@
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/blob/main/smartphones-sugarchain-miner-cn.sh)```
 
 <br><br><br>
-如果你觉得这个有用，可以捐助我。
-SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
+如果你觉得这个有用，可以捐助我。<br>
+SUGAR捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
 
 </details>
 <details>
