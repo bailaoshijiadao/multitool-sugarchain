@@ -236,9 +236,9 @@ function Start_sugar_miner(){
 		creat_sugarchain_miner_conf
 	fi
 	
-	if [[ ! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
+	if [[ ! -f ${CRTDIR}/sugarmaker-aarch64 ]]; then
 		curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-aarch64
-		chmod 777 sugarchain-aarch64
+		chmod 777 sugarmaker-aarch64
 	fi
 	
 	
