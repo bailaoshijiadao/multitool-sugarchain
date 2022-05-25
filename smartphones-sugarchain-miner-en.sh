@@ -238,7 +238,7 @@ function Start_sugar_miner(){
 	fi
 	
 	if [[ ! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
-		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarchain-aarch64/main/sugarchain-aarch64
+		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker-aarch64/main/sugarmaker-aarch64
 		chmod 777 sugarchain-aarch64
 	fi
 	
@@ -291,7 +291,10 @@ function see_screen(){
 	if screen -ls > /dev/null 2>&1
 	then
 		screen -r
+	else
+		echo -e "${RED}Mining window is not detected, window opening failed.${NC}"
 	fi
+	sleep 5
 }	
 
 if ! figlet -v > /dev/null 2>&1; then

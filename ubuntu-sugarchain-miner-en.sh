@@ -9,99 +9,124 @@ GREEN='\033[1;32m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 dversion="v1.0"
+CRTDIR=$(pwd)
 
 function string_limit_check_mark(){
-if [[ -z "$2" ]]; then
-string="$1"
-string=${string::70}
-else
-string=$1
-string_color=$2
-string_leght=${#string}
-string_leght_color=${#string_color}
-string_diff=$((string_leght_color-string_leght))
-string=${string_color::70+string_diff}
-fi
-echo -e "${ARROW} ${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
+	if [[ -z "$2" ]]; then
+		string="$1"
+		string=${string::100}
+	else
+		string=$1
+		string_color=$2
+		string_leght=${#string}
+		string_leght_color=${#string_color}
+		string_diff=$((string_leght_color-string_leght))
+		string=${string_color::100+string_diff}
+	fi
+	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
 }
 
 function string_limit_x_mark(){
-if [[ -z "$2" ]]; then
-string="$1"
-string=${string::50}
-else
-string=$1
-string_color=$2
-string_leght=${#string}
-string_leght_color=${#string_color}
-string_diff=$((string_leght_color-string_leght))
-string=${string_color::50+string_diff}
-fi
-echo -e "${ARROW} ${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
+	if [[ -z "$2" ]]; then
+		string="$1"
+		string=${string::50}
+	else
+		string=$1
+		string_color=$2
+		string_leght=${#string}
+		string_leght_color=${#string_color}
+		string_diff=$((string_leght_color-string_leght))
+		string=${string_color::50+string_diff}
+	fi
+	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
 }
 
 
-function creat_sugarchain_miner_conf(){
+function Modify_sugarchain_miner_conf(){
 
-	if [[ -f /home/$USER/pool-list.json ]]; then
+	if [[ -f ${CRTDIR}/sugarchain_miner_conf.json ]]; then
+		read_config
+	fi
+	
+	if [[ -f ${CRTDIR}/pool-list.json ]]; then
 		echo
 	else
-		wget https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
+		curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
 	fi
-
-	while true 
-	do
-		sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 85 3>&1 1>&2 2>&3)
-		if [[ "$sugar_address" == sugar* ]]; then
-			string_limit_check_mark "sugar address $sugar_address  format is valid................................." "sugar address ${GREEN}$sugar_address${CYAN}  format is valid................................."
-			sleep 1
-			break
-		else
-			string_limit_x_mark "Sugar address $sugar_address is not valid ..............................."
-			sleep 5			
-		fi
-	done
 	
-	pool=$(cat /home/$USER/pool-list.json)
-	#pool=$(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
-
-	while true 
-	do
-		pool_address=$(whiptail --inputbox "Please enter your Pool address or IP\nChoose from the following mining pools\n$pool" 16 85 3>&1 1>&2 2>&3)
-		if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
-			string_limit_check_mark "Pool address $pool_address format is valid................................." "Pool address ${GREEN}$pool_address${CYAN} format is valid................................."
-			sleep 1
-			break
-		else
-			string_limit_x_mark "Pool address $pool_address1 is not valid ..............................."
-			sleep 5
-		fi
-	done
+	if whiptail --yesno "Would you like use old sugar address?" 8 40; then
+		string_limit_check_mark "Sugar address $sugar_address................................." "Sugar address ${GREEN}$sugar_address${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$sugar_address" == sugar* ]]; then
+				string_limit_check_mark "Sugar address $sugar_address  format is valid................................." "Sugar address ${GREEN}$sugar_address${CYAN}  format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Sugar address $sugar_address is not valid..............................."
+				sleep 5			
+			fi
+		done
+	fi
 	
-	while true 
-	do
-		miner_cores=$(whiptail --inputbox "Please enter your miner cores(optional), defaults to 100% CPU" 8 85 3>&1 1>&2 2>&3)
-		if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
-			string_limit_check_mark "Miner cores $miner_cores format is valid................................." "Miner cores ${GREEN}$miner_cores${CYAN} format is valid................................."
-			sleep 1
-			break
-		else
-			string_limit_x_mark "Miner cores $miner_cores is not valid ..............................."
-			sleep 5
-		fi
-	done
+	pool=$(cat ${CRTDIR}/pool-list.json)
+	#pool=$(curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
 	
-	while true 
-	do
-		machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 85 3>&1 1>&2 2>&3)
-		if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
-			string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
-			sleep 1
-			break
-		fi
-	done
+	if whiptail --yesno "Would you like use old pool?" 8 40; then
+		string_limit_check_mark "Pool address $pool_address................................." "Pool address ${GREEN}$pool_address${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			pool_address=$(whiptail --inputbox "Please enter your Pool address or IP\nChoose from the following mining pools\n$pool" 16 40 39.98.39.1:6678 3>&1 1>&2 2>&3)
+			if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
+				string_limit_check_mark "Pool address $pool_address format is valid................................." "Pool address ${GREEN}$pool_address${CYAN} format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Pool address $pool_address1 is not valid..............................."
+				sleep 5
+			fi
+		done
+	fi
 	
-	cat << EOF >  /home/$USER/sugarchain_miner_conf.json
+	if whiptail --yesno "Would you like use old miner cores?" 8 40; then
+		string_limit_check_mark "Miner cores $miner_cores................................." "Miner cores ${GREEN}$miner_cores${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			miner_cores=$(whiptail --inputbox "Please enter your miner cores(optional), defaults to 100% CPU" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
+				string_limit_check_mark "Miner cores $miner_cores format is valid................................." "Miner cores ${GREEN}$miner_cores${CYAN} format is valid................................."
+				sleep 1
+				break
+			else
+				string_limit_x_mark "Miner cores $miner_cores is not valid..............................."
+				sleep 5
+			fi
+		done
+	fi
+	
+	if whiptail --yesno "Would you like use old machinary code?" 8 40; then
+		string_limit_check_mark "Machinary code $machinary_code................................." "Machinary code ${GREEN}$machinary_code${CYAN}................................."
+		sleep 2
+	else
+		while true 
+		do
+			machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 40 3>&1 1>&2 2>&3)
+			if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
+				string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
+				sleep 1
+				break
+			fi
+		done
+	fi
+	
+	cat << EOF >  ${CRTDIR}/sugarchain_miner_conf.json
 {
 	"sugar_address":"${sugar_address}",
 	"pool_address":"${pool_address}",
@@ -114,234 +139,280 @@ string_limit_check_mark "Modify mining configuration succeeded..................
 }
 
 
-function Install_all_cpuminer(){
+function creat_sugarchain_miner_conf(){
 
-	sudo apt-get install -y git
-	sudo apt-get install -y build-essential
-	sudo apt-get install -y libssl-dev
-	sudo apt-get install -y libcurl4-openssl-dev
-	sudo apt-get install -y libjansson-dev
-	sudo apt-get install -y libgmp-dev
-	sudo apt-get install -y automake
-	sudo apt-get install -y zlib1g-dev
-	git clone https://github.com/cryptozeny/cpuminer-opt-sugarchain.git
-	cd cpuminer-opt-sugarchain
-	./build-yespower.sh
-
-	if ./cpuminer --cputest > /dev/null 2>&1
-	then
-	  string_limit_check_mark " Sugarchain cpuminer installed succeeded................................." "Sugarchain cpuminer installed succeeded................................."
-	  echo
+	if [[ -f ${CRTDIR}/pool-list.json ]]; then
+		echo
 	else
-	  string_limit_x_mark "Sugarchain cpuminer was not installed................................."
-	  echo
-	  exit
+		curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json
+		
 	fi
+	
+	while true 
+	do
+		sugar_address=$(whiptail --inputbox "Please enter your sugar address" 8 40 3>&1 1>&2 2>&3)
+		if [[ "$sugar_address" == sugar* ]]; then
+			string_limit_check_mark "Sugar address $sugar_address format is valid................................." "Sugar address ${GREEN}$sugar_address${CYAN} format is valid................................."
+			sleep 1
+			break
+		else
+			string_limit_x_mark "Sugar address $sugar_address is not valid ..............................."
+			sleep 5			
+		fi
+	done
+	
+	pool=$(cat ${CRTDIR}/pool-list.json)
+	#pool=$(curl -O https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/pool-list.json)
+	
+	while true 
+	do
+		pool_address=$(whiptail --inputbox "Please enter your Pool address or IP\nChoose from the following mining pools\n$pool" 16 40 3>&1 1>&2 2>&3)
+		if [[ "$pool_address" == *.*.*:* || "$pool_address" == *.*.*.*:* ]]; then
+			string_limit_check_mark "Pool address $pool_address format is valid................................." "Pool address ${GREEN}$pool_address${CYAN} format is valid................................."
+			sleep 1
+			break
+		else
+			string_limit_x_mark "Pool address $pool_address1 is not valid..............................."
+			sleep 5
+		fi
+	done
+	
+	while true 
+	do
+		miner_cores=$(whiptail --inputbox "Please enter your miner cores(optional), defaults to 100% CPU" 8 40 3>&1 1>&2 2>&3)
+		if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
+			string_limit_check_mark "Miner cores $miner_cores format is valid................................." "Miner cores ${GREEN}$miner_cores${CYAN} format is valid................................."
+			sleep 1
+			break
+		else
+			string_limit_x_mark "Miner cores $miner_cores is not valid..............................."
+			sleep 5
+		fi
+	done
+	
+	while true 
+	do
+		machinary_code=$(whiptail --inputbox "Please enter your machinary code(optional)" 8 40 3>&1 1>&2 2>&3)
+		if [[ "$machinary_code" == "" ||  "$miner_cores" == * ]]; then
+			string_limit_check_mark "Machinary code $machinary_code format is valid................................." "Machinary code ${GREEN}$machinary_code${CYAN} format is valid................................."
+			sleep 1
+			break
+		fi
+	done
+	
+	cat << EOF >  ${CRTDIR}/sugarchain_miner_conf.json
+{
+	"sugar_address":"${sugar_address}",
+	"pool_address":"${pool_address}",
+	"miner_cores":"${miner_cores}",
+	"machinary_code":"${machinary_code}"
 }
+EOF
 
-function Install_sugarchain_cpuminer(){
-
-if [[ $(lsb_release -d) != *Debian* && $(lsb_release -d) != *Ubuntu* ]]; then
-
-   echo -e "${WORNING} ${CYAN}ERROR: ${RED}OS version not supported${NC}"
-   echo -e "${WORNING} ${CYAN}Installation stopped...${NC}"
-   echo
-   exit
-fi
-
-#install JQ
-if jq --version > /dev/null 2>&1; then
-	string_limit_check_mark "JQ $(jq --version) already installed................................." "JQ ${GREEN}$(jq --version)${CYAN} already installed................................."
-	sleep 0.2
-else
-  echo -e "${ARROW} ${YELLOW}Installing JQ....${NC}"
-  sudo apt  install jq -y > /dev/null 2>&1
-
-    if jq --version > /dev/null 2>&1
-    then
-      string_limit_check_mark "JQ $(jq --version) installed................................." "JQ ${GREEN}$(jq --version)${CYAN} installed................................."
-      echo
-    else
-      string_limit_x_mark "JQ was not installed................................."
-      echo
-      exit
-    fi
-fi
-
-#Are mining files installed
-if [[ -d /home/$USER/cpuminer-opt-sugarchain ]]; then
-	echo -e "${CYAN}Detect that the folder cpuminer-opt-sugarchain already exists${NC}"
-	echo -e "${CYAN}Start test whether the mining software is installed correctly${NC}"
-	cd cpuminer-opt-sugarchain
-	if ./cpuminer --cputest > /dev/null 2>&1
-	then
-	  string_limit_check_mark " Sugarchain cpuminer is already installed................................." "Sugarchain is already cpuminer installed................................."
-	  echo
-	  exit
-	else
-	  string_limit_x_mark "Sugarchain cpuminer was not installed................................."
-	  echo
-	fi
-fi
-
-
-#creat sugarchain_miner_conf.json
-if [[ -f /home/$USER/sugarchain_miner_conf.json ]]; then
-	if whiptail --yesno "Would you like import old settings from sugarchain_conf?" 8 65; then
-		read_config
-		Install_all_cpuminer
-	else
-		creat_sugarchain_miner_conf
-		Install_all_cpuminer
-	fi
-else
-	creat_sugarchain_miner_conf
-	Install_all_cpuminer
-fi
-
+string_limit_check_mark "Creat mining configuration succeeded................................." "Creat mining configuration succeeded................................."
 }
-
 
 
 function read_config(){
-	sugar_address=$(cat /home/$USER/sugarchain_miner_conf.json | jq -r '.sugar_address')
-	string_limit_check_mark "sugar_address $sugar_address ................................." "sugar_address ${GREEN}$sugar_address${CYAN} ................................."
-	pool_address=$(cat /home/$USER/sugarchain_miner_conf.json | jq -r '.pool_address')
-	string_limit_check_mark "pool_address $pool_address ................................." "pool_address ${GREEN}$pool_address${CYAN} ................................."
-	miner_cores=$(cat /home/$USER/sugarchain_miner_conf.json | jq -r '.miner_cores')
-	string_limit_check_mark "miner_cores $miner_cores ................................." "miner_cores ${GREEN}$miner_cores${CYAN} ................................."
-	machinary_code=$(cat /home/$USER/sugarchain_miner_conf.json | jq -r '.machinary_code')
-	string_limit_check_mark "machinary code $machinary_code ................................." "machinary code ${GREEN}$machinary_code${CYAN} ................................."
+	sugar_address=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.sugar_address')
+	string_limit_check_mark "Sugar address $sugar_address ................................." "Sugar address ${GREEN}$sugar_address${CYAN} ................................."
+	pool_address=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.pool_address')
+	string_limit_check_mark "Pool address $pool_address ................................." "Pool address ${GREEN}$pool_address${CYAN} ................................."
+	miner_cores=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.miner_cores')
+	string_limit_check_mark "Miner cores $miner_cores ................................." "Miner cores ${GREEN}$miner_cores${CYAN} ................................."
+	machinary_code=$(cat ${CRTDIR}/sugarchain_miner_conf.json | jq -r '.machinary_code')
+	string_limit_check_mark "Machinary code $machinary_code ................................." "Machinary code ${GREEN}$machinary_code${CYAN} ................................."
 }
 
 
 function Start_sugar_miner(){
-	if screen -ls > /dev/null 2>&1
-	then
-	  Stop_sugar_miner
-	  echo
-	fi
 	echo -e "${CYAN}Sugarchain cpuminer setup starting,you can press [CTRL+C] to cancel.${NC}"
 	sleep 5
 	cd ~/
-	if [[ -f /home/$USER/sugarchain_miner_conf.json ]]; then
+	
+	if [[ -f ${CRTDIR}/sugarchain_miner_conf.json ]]; then
 		read_config
 	else
 		creat_sugarchain_miner_conf
 	fi
 	
-	if [[ "$sugar_address" == "" || "$sugar_address" != sugar* ]]; then
-		creat_sugarchain_miner_conf
-	fi
-	if [[ "$pool_address" == "" || "$pool_address" != *.*.*:* || "$pool_address" != *.*.*.*:* ]]; then
-		creat_sugarchain_miner_conf
-	fi
-	
-	if [[ -d /home/$USER/cpuminer-opt-sugarchain ]]; then
-		echo -e "${CYAN}Detect that the folder cpuminer-opt-sugarchain already exists${NC}"
-		echo -e "${CYAN}Start test whether the mining software is installed correctly${NC}"
-		cd cpuminer-opt-sugarchain
-		if ./cpuminer --cputest > /dev/null 2>&1
-		then
-		  string_limit_check_mark " Sugarchain cpuminer is already installed................................." "Sugarchain is already cpuminer installed................................."
-		  echo
-		else
-		  string_limit_x_mark "Sugarchain cpuminer was not installed................................."
-		  rm -rf /home/$USER/cpuminer-opt-sugarchain
-		  Install_all_cpuminer
-		  echo
-		fi
-	else
-		Install_all_cpuminer
-	fi
+	check_results=`uname -a`
+	if [[ $check_results =~ "Linux" ]]; then
+		echo -e "${YELLOW}$check_results${NC}"
+		if [[ $check_results =~ "x86_64" ]]; then
+			if [[ ! -f ${CRTDIR}/sugarmaker-linux64 ]]; then
+				curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker/main/sugarmaker-linux64
+			fi
+			chmod 777 sugarmaker-linux64
+			check_results=`screen -ls`
+			if [[ $check_results =~ "sugarchain_screen" ]]; then
+				string_limit_check_mark "Detect the existing mining serial port and start to close the original window........." "Detect the existing mining serial port and start to close the original window${GREEN}${CYAN} ........."
+				Stop_sugar_miner
+			fi
+			
+			string_limit_check_mark "Start creating a mining window............................." "Start creating a mining window${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_screen"
+			screen -dmS $screen_name
 
-	screen_name=$"my_screen"
-	screen -dmS $screen_name
-	cmd=$"cd ~/cpuminer-opt-sugarchain";
-	screen -x -S $screen_name -p 0 -X stuff "$cmd"
-	screen -x -S $screen_name -p 0 -X stuff $'\n'
-	
-	if [[ "$miner_cores" == "" ]]; then
-		cmd=$"./cpuminer -a yespower -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
-	else
-		cmd=$"./cpuminer -a yespower -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+			if [[ "$miner_cores" == "" ]]; then
+				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+				echo -e "${YELLOW}1${NC}"
+			else
+				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+				echo -e "${YELLOW}2${NC}"
+			fi
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			
+			string_limit_check_mark "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window" "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window${GREEN}${CYAN}"
+			sleep 5
+			
+		fi
+		if [[ $check_results =~ "i686" ]]; then
+			if [[ ! -f ${CRTDIR}/sugarmaker-linux32 ]]; then
+				curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker/main/sugarmaker-linux32
+			fi
+			chmod 777 sugarmaker-linux32
+				
+			check_results=`screen -ls`
+			if [[ $check_results =~ "sugarchain_screen" ]]; then
+				string_limit_check_mark "Detect the existing mining serial port and start to close the original window........." "Detect the existing mining serial port and start to close the original window${GREEN}${CYAN} ........."
+				Stop_sugar_miner
+			fi
+			
+			string_limit_check_mark "Start creating a mining window............................." "Start creating a mining window${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_screen"
+			screen -dmS $screen_name
+
+			if [[ "$miner_cores" == "" ]]; then
+				cmd=$"./sugarmaker-linux32 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+			else
+				cmd=$"./sugarmaker-linux32 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+			fi
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			
+			string_limit_check_mark "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window" "Sugar chain mining has been started, please press 4 after 10 seconds to enter the view mining window${GREEN}${CYAN}"
+			sleep 5
+		fi
 	fi
-	screen -x -S $screen_name -p 0 -X stuff "$cmd"
-	screen -x -S $screen_name -p 0 -X stuff $'\n'
-	string_limit_check_mark "Start sugar miner succeeded................................." "Start sugar miner succeeded${GREEN}${CYAN} ................................."
-	echo -e "${YELLOW}************  cpuminer-opt v3.8.8.1.7-sugarchain  ************* ${NC}"
-	echo -e "${YELLOW}   A CPU miner with multi algo support and optimized for CPUs   ${NC}"
-	echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-	echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-	echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)${NC}"
-	echo -e "${YELLOW}To view, copy and paste the command \"screen -r\", and then enter${NC}"
+	
+	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
+	echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
+	echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 }
 
+
 function Stop_sugar_miner(){
-	
-	if screen -ls > /dev/null 2>&1
+	check_results=`screen -ls`
+	if [[ $check_results =~ "sugarchain_screen" ]]
 	then
-		screen_name=$"my_screen"
+		screen_name=$"sugarchain_screen"
 		cmd=$"\003";
 		screen -x -S $screen_name -p 0 -X stuff "$cmd"
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
 		cmd=$"exit";
 		screen -x -S $screen_name -p 0 -X stuff "$cmd"
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
-		string_limit_check_mark "Stop sugar miner succeeded................................." "Stop sugar miner succeeded${GREEN}${CYAN} ................................."
-	echo
+		string_limit_check_mark "Stop sugar miner succeeded....................................." "Stop sugar miner succeeded${GREEN}${CYAN} ....................................."
+	else
+		string_limit_check_mark "No mining window detected, stop mining failed................" "No mining window detected, stop mining failed${GREEN}${CYAN} ................"
+	fi
+	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
+}
+
+function see_screen(){
+	if screen -ls > /dev/null 2>&1
+	then
+		screen -r
+	else
+		echo -e "${RED}Mining window is not detected, window opening failed.${NC}"
+	fi
+	sleep 5
+}
+
+function install_step(){
+	if ! figlet -v > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}Installing figlet ....${NC}"
+		echo -e "${ARROW} ${YELLOW}sudo $* install -y figlet ....${NC}"
+		sudo $* install -y figlet > /dev/null 2>&1
+	fi
+
+
+	if ! whiptail -v > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}Installing whiptail ....${NC}"
+		echo -e "${ARROW} ${YELLOW}sudo $* install -y whiptail ....${NC}"
+		sudo $* install -y whiptail > /dev/null 2>&1
+	fi
+
+	#install JQ
+	if ! jq --version > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}Installing JQ ....${NC}"
+		echo -e "${ARROW} ${YELLOW}sudo $* install -y jq ....${NC}"
+		sudo $* install -y jq > /dev/null 2>&1
+	fi
+
+	if ! screen -v > /dev/null 2>&1; then
+		sudo $* install -y screen > /dev/null 2>&1
 	fi
 }
 
-
-if ! figlet -v > /dev/null 2>&1
-then
-sudo apt-get update -y > /dev/null 2>&1
-sudo apt-get install -y figlet > /dev/null 2>&1
+#Ubuntu
+if [[ -f /etc/issue ]]; then
+	install_step apt
 fi
 
-if ! screen -v > /dev/null 2>&1
-then
-sudo sudo apt-get install screen > /dev/null 2>&1
+#Centos
+if [[ -f /etc/issue ]]; then
+	install_step yum
 fi
 
 
-sleep 1
-echo -e "${BLUE}"
-figlet -f big "SugarChain"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${GREEN}Version: $dversion${NC}"
-echo -e "${GREEN}OS: Ubuntu 16/18${NC}"
-echo -e "${GREEN}Author:bailaoshi${NC}"
-echo -e "${GREEN}Special thanks to cryptozeny${NC}"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${CYAN}1  - Start sugar miner${NC}"
-echo -e "${CYAN}2  - STOP sugar miner${NC}"
-echo -e "${CYAN}3  - Modify mining configuration${NC}"
-echo -e "${YELLOW}================================================================${NC}"
-echo -e "${YELLOW}************  cpuminer-opt v3.8.8.1.7-sugarchain  ************* ${NC}"
-echo -e "${YELLOW}   A CPU miner with multi algo support and optimized for CPUs   ${NC}"
-echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-echo -e "${YELLOW}            with AES_NI and AVX2 and SHA extensions.            ${NC}"
-echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)${NC}"
+while :
+do
+	sleep 1
+	echo -e "${BLUE}"
+	figlet -f big "SugarChain"
+	echo -e "${YELLOW}===========================================================${NC}"
+	echo -e "${GREEN}Version: $dversion${NC}"
+	echo -e "${GREEN}OS: Android > 7.0${NC}"
+	echo -e "${GREEN}Author: bailaoshi${NC}"
+	echo -e "${GREEN}Special thanks to Kanon${NC}"
+	echo -e "${YELLOW}===========================================================${NC}"
+	echo -e "${CYAN}1  - Start sugar miner[Background process]${NC}"
+	echo -e "${CYAN}2  - Stop sugar miner${NC}"
+	echo -e "${CYAN}3  - Modify mining configuration[Use only when modification is required]${NC}"
+	echo -e "${CYAN}4  - View the mining window, return to this window and use the key combination[CTRL+A+D]${NC}"
+	echo -e "${YELLOW}===========================================================${NC}"
+	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
+	echo -e "${YELLOW}Multi-threaded CPU miner for Sugarchain and other Yespower variants${NC}"
+	echo -e "${YELLOW}SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 
-read -rp "Pick an option and hit ENTER: "
+	read -rp "Pick an option and hit ENTER: "
 
-  case "$REPLY" in
+	  case "$REPLY" in
 
- 1)
-    sleep 1
-    Start_sugar_miner
- ;;
- 2) 
+	 1)
+		sleep 2
+		Start_sugar_miner
+	 ;;
+	 2)
 
-    sleep 1
-    Stop_sugar_miner
- ;;
-  3) 
+		sleep 2
+		Stop_sugar_miner
+	 ;;
+	 3) 
 
-    sleep 1
-    creat_sugarchain_miner_conf
- ;;
+		sleep 2
+		Modify_sugarchain_miner_conf
+	 ;;
+	 4) 
 
-    esac
+		sleep 2
+		see_screen
+	 ;;
+
+		esac
+
+done
+

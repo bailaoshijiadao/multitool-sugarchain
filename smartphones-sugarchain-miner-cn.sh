@@ -238,7 +238,7 @@ function Start_sugar_miner(){
 	fi
 	
 	if [[ ! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
-		curl -O https://gitee.com/bailaoshijiadao/sugarchain-aarch64/raw/main/sugarchain-aarch64
+		curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-aarch64
 		chmod 777 sugarchain-aarch64
 	fi
 	
@@ -292,7 +292,10 @@ function see_screen(){
 	if screen -ls > /dev/null 2>&1
 	then
 		screen -r
+	else
+		echo -e "${RED}未检测到挖矿窗口，窗口打开失败。${NC}"
 	fi
+	sleep 5
 }
 
 echo -e "${CYAN}开始更换国内源${NC}"
