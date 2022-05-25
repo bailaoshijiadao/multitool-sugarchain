@@ -238,7 +238,7 @@ function Start_sugar_miner(){
 	fi
 	
 	if [[ ! -f ${CRTDIR}/sugarmaker-aarch64 ]]; then
-		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker-aarch64/main/sugarmaker-aarch64
+		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker/main/sugarmaker-aarch64
 	fi
 	chmod 777 sugarmaker-aarch64
 	
@@ -364,4 +364,3 @@ do
 		esac
 
 done
-
