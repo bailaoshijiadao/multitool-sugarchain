@@ -334,21 +334,18 @@ function see_screen(){
 function install_step(){
 	if ! figlet -v > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}Installing figlet ....${NC}"
-		echo -e "${ARROW} ${YELLOW}sudo $* install -y figlet ....${NC}"
 		sudo $* install -y figlet > /dev/null 2>&1
 	fi
 
 
 	if ! whiptail -v > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}Installing whiptail ....${NC}"
-		echo -e "${ARROW} ${YELLOW}sudo $* install -y whiptail ....${NC}"
 		sudo $* install -y whiptail > /dev/null 2>&1
 	fi
 
 	#install JQ
 	if ! jq --version > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}Installing JQ ....${NC}"
-		echo -e "${ARROW} ${YELLOW}sudo $* install -y jq ....${NC}"
 		sudo $* install -y jq > /dev/null 2>&1
 	fi
 
@@ -363,7 +360,7 @@ if [[ -f /etc/issue ]]; then
 fi
 
 #Centos
-if [[ -f /etc/issue ]]; then
+if [[ -f /etc/*-release ]]; then
 	install_step yum
 fi
 
