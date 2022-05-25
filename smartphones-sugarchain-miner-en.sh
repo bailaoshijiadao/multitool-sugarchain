@@ -282,7 +282,7 @@ function Stop_sugar_miner(){
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
 		string_limit_check_mark "Stop sugar miner succeeded....................................." "Stop sugar miner succeeded${GREEN}${CYAN} ....................................."
 	else
-		string_limit_check_mark "No mining window detected, stop mining failed................" "No mining window detected, stop mining failed${GREEN}${CYAN} ................"
+		string_limit_x_mark "No mining window detected, stop mining failed................"
 	fi
 	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 }

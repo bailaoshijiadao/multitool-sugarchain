@@ -283,7 +283,7 @@ function Stop_sugar_miner(){
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
 		string_limit_check_mark "停止采糖成功....................................." "停止采糖成功${GREEN}${CYAN} ....................................."
 	else
-		string_limit_check_mark "未检测到开采窗口,停止开采失败................" "未检测到开采窗口,停止开采失败${GREEN}${CYAN} ................"
+		string_limit_x_mark "未检测到开采窗口,停止开采失败................"
 	fi
 	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 }
