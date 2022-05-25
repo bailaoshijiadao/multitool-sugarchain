@@ -12,6 +12,10 @@
 ②打开termux后复制此命令粘贴并回车<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/smartphones-sugarchain-miner-cn.sh)```
 
+Linux系统开采<br>
+适用系统: Ubuntu Centos
+```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-miner-cn.sh)```
+
 <br><br><br>
 如果你觉得这个有用，可以捐助我。<br>
 SUGAR捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
@@ -32,8 +36,9 @@ Android mobile mining<br>
 ② After opening termux, copy this command, paste and enter<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/smartphones-sugarchain-miner-en.sh)```
 
-Ubuntu mining<br>
-```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/ubuntu-sugarchain-miner-en.sh)```
+Linux mining<br>
+OS: Ubuntu Centos<br>
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-miner-en.sh)```
 
 <br><br><br>
 If you find this useful, you can donate it to me.
