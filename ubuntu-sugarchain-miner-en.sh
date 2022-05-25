@@ -256,10 +256,8 @@ function Start_sugar_miner(){
 
 			if [[ "$miner_cores" == "" ]]; then
 				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
-				echo -e "${YELLOW}1${NC}"
 			else
 				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
-				echo -e "${YELLOW}2${NC}"
 			fi
 			screen -x -S $screen_name -p 0 -X stuff "$cmd"
 			screen -x -S $screen_name -p 0 -X stuff $'\n'
@@ -316,7 +314,7 @@ function Stop_sugar_miner(){
 		screen -x -S $screen_name -p 0 -X stuff $'\n'
 		string_limit_check_mark "Stop sugar miner succeeded....................................." "Stop sugar miner succeeded${GREEN}${CYAN} ....................................."
 	else
-		string_limit_check_mark "No mining window detected, stop mining failed................" "No mining window detected, stop mining failed${GREEN}${CYAN} ................"
+		string_limit_x_mark "No mining window detected, stop mining failed................"
 	fi
 	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 }
@@ -356,13 +354,22 @@ function install_step(){
 
 #Ubuntu
 if [[ -f /etc/issue ]]; then
-	install_step apt
+	system_v=$(cat /etc/issue)
+	if [[ $system_v =~ "Ubuntu" ]]; then
+		install_step apt
+	fi
 fi
 
 #Centos
-if [[ -f /etc/*-release ]]; then
+if [[ -f /etc/centos-release ]]; then
 	install_step yum
+else 
+	if [[ -f /etc/redhat-release ]]; then
+		install_step yum
+	fi
 fi
+
+
 
 
 while :
@@ -372,7 +379,7 @@ do
 	figlet -f big "SugarChain"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${GREEN}Version: $dversion${NC}"
-	echo -e "${GREEN}OS: Android > 7.0${NC}"
+	echo -e "${GREEN}OS: Linux Ubuntu Centos${NC}"
 	echo -e "${GREEN}Author: bailaoshi${NC}"
 	echo -e "${GREEN}Special thanks to Kanon${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
