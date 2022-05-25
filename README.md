@@ -13,7 +13,7 @@
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/smartphones-sugarchain-miner-cn.sh)```
 
 Linux系统开采<br>
-适用系统: Ubuntu Centos
+适用系统: Ubuntu Centos<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-miner-cn.sh)```
 
 <br>
