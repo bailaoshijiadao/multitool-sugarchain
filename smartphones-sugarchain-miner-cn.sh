@@ -238,9 +238,8 @@ function Start_sugar_miner(){
 	
 	if [[ ! -f ${CRTDIR}/sugarmaker-aarch64 ]]; then
 		curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-aarch64
-		chmod 777 sugarmaker-aarch64
 	fi
-	
+	chmod 777 sugarmaker-aarch64
 	
 	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]; then

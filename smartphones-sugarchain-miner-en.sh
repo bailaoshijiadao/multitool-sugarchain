@@ -239,9 +239,8 @@ function Start_sugar_miner(){
 	
 	if [[ ! -f ${CRTDIR}/sugarmaker-aarch64 ]]; then
 		curl -O https://raw.githubusercontent.com/bailaoshijiadao/sugarmaker-aarch64/main/sugarmaker-aarch64
-		chmod 777 sugarmaker-aarch64
 	fi
-	
+	chmod 777 sugarmaker-aarch64
 	
 	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]; then
