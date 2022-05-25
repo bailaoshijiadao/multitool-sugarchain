@@ -14,14 +14,14 @@ CRTDIR=$(pwd)
 function string_limit_check_mark(){
 	if [[ -z "$2" ]]; then
 		string="$1"
-		string=${string::70}
+		string=${string::100}
 	else
 		string=$1
 		string_color=$2
 		string_leght=${#string}
 		string_leght_color=${#string_color}
 		string_diff=$((string_leght_color-string_leght))
-		string=${string_color::70+string_diff}
+		string=${string_color::100+string_diff}
 	fi
 	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}√${CYAN}]${NC}"
 }
@@ -99,7 +99,7 @@ function Modify_sugarchain_miner_conf(){
 	else
 		while true 
 		do
-			miner_cores=$(whiptail --inputbox "请输入你的开采核心数(可空), 不填则为100%开采" 8 40 3>&1 1>&2 2>&3)
+			miner_cores=$(whiptail --inputbox "输入你的开采核心数(可空), 不填则为100%开采" 8 40 3>&1 1>&2 2>&3)
 			if [[ "$miner_cores" =~ ^[0-9]*$ ||  "$miner_cores" == "" ]]; then
 				string_limit_check_mark "开采核心数 $miner_cores 格式有效................................." "开采核心数 ${GREEN}$miner_cores${CYAN} 格式有效................................."
 				sleep 1
@@ -135,7 +135,7 @@ function Modify_sugarchain_miner_conf(){
 }
 EOF
 
-string_limit_check_mark "修改开采配置成功................................." "修改开采配置成功................................."
+string_limit_check_mark "Modify mining configuration succeeded................................." "Modify mining configuration succeeded................................."
 }
 
 
@@ -236,33 +236,65 @@ function Start_sugar_miner(){
 		creat_sugarchain_miner_conf
 	fi
 	
-	if [[ ! -f ${CRTDIR}/sugarchain-aarch64 ]]; then
-		curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-aarch64
-		chmod 777 sugarchain-aarch64
+	check_results=`uname -a`
+	if [[ $check_results =~ "Linux" ]]; then
+		echo -e "${YELLOW}$check_results${NC}"
+		if [[ $check_results =~ "x86_64" ]]; then
+			if [[ ! -f ${CRTDIR}/sugarmaker-linux64 ]]; then
+				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux64
+			fi
+			chmod 777 sugarmaker-linux64
+			check_results=`screen -ls`
+			if [[ $check_results =~ "sugarchain_screen" ]]; then
+			string_limit_check_mark "检测已有开采串口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
+				Stop_sugar_miner
+			fi
+			
+			string_limit_check_mark "开始创建开采窗口............................." "开始创建开采窗口${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_screen"
+			screen -dmS $screen_name
+
+			if [[ "$miner_cores" == "" ]]; then
+				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+			else
+				cmd=$"./sugarmaker-linux64 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+			fi
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			
+			string_limit_check_mark "已启动糖链开采,请10秒后按4可进入查看开采窗口......" "已启动糖链开采,请10秒后按4可进入查看开采窗口${GREEN}${CYAN} ......"
+			sleep 5
+			
+		fi
+		if [[ $check_results =~ "i686" ]]; then
+			if [[ ! -f ${CRTDIR}/sugarmaker-linux32 ]]; then
+				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
+			fi
+			chmod 777 sugarmaker-linux32
+				
+			check_results=`screen -ls`
+			if [[ $check_results =~ "sugarchain_screen" ]]; then
+				string_limit_check_mark "检测已有开采串口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
+				Stop_sugar_miner
+			fi
+			
+			string_limit_check_mark "开始创建开采窗口............................." "开始创建开采窗口${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_screen"
+			screen -dmS $screen_name
+
+			if [[ "$miner_cores" == "" ]]; then
+				cmd=$"./sugarmaker-linux32 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
+			else
+				cmd=$"./sugarmaker-linux32 -a YespowerSugar -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
+			fi
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			
+			string_limit_check_mark "已启动糖链开采,请10秒后按4可进入查看开采窗口......" "已启动糖链开采,请10秒后按4可进入查看开采窗口${GREEN}${CYAN} ......"
+			sleep 5
+		fi
 	fi
 	
-	
-	check_results=`screen -ls`
-	if [[ $check_results =~ "sugarchain_screen" ]]; then
-		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
-		Stop_sugar_miner
-	fi
-	
-	string_limit_check_mark "开始创建开采窗口............................." "开始创建开采窗口${GREEN}${CYAN} ................................."
-	screen_name=$"sugarchain_screen"
-	screen -dmS $screen_name
-	
-	if [[ "$miner_cores" == "" ]]; then
-		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code"
-	else
-		cmd=$"./sugarchain-aarch64 -o stratum+tcp://$pool_address -u $sugar_address.$machinary_code -t$miner_cores"
-	fi
-		
-	screen -x -S $screen_name -p 0 -X stuff "$cmd"
-	screen -x -S $screen_name -p 0 -X stuff $'\n'
-	
-	string_limit_check_mark "已启动糖链开采,请10秒后按4可进入查看开采窗口......" "已启动糖链开采,请10秒后按4可进入查看开采窗口${GREEN}${CYAN} ......"
-	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
@@ -297,31 +329,48 @@ function see_screen(){
 	sleep 5
 }
 
-echo -e "${CYAN}开始更换国内源${NC}"
-sleep 2
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/termux-packages-24 stable main@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/game-packages-24 games stable@' $PREFIX/etc/apt/sources.list &&sed -i 's@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.bfsu.edu.cn/termux/science-packages-24 science stable@' $PREFIX/etc/apt/sources.list
-	
+function install_step(){
+	if ! figlet -v > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 figlet 中 ....${NC}"
+		sudo $* install -y figlet > /dev/null 2>&1
+	fi
 
-if ! figlet -v > /dev/null 2>&1; then
-	echo -e "${ARROW} ${YELLOW}安装 figlet 中....${NC}"
-	pkg install -y figlet > /dev/null 2>&1
+
+	if ! whiptail -v > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 whiptail 中....${NC}"
+		sudo $* install -y whiptail > /dev/null 2>&1
+	fi
+
+	#install JQ
+	if ! jq --version > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 JQ 中 ....${NC}"
+		sudo $* install -y jq > /dev/null 2>&1
+	fi
+
+	if ! screen -v > /dev/null 2>&1; then
+		sudo $* install -y screen > /dev/null 2>&1
+	fi
+}
+
+#Ubuntu
+if [[ -f /etc/issue ]]; then
+	system_v=$(cat /etc/issue)
+	if [[ $system_v =~ "Ubuntu" ]]; then
+		install_step apt
+	fi
+fi
+
+#Centos
+if [[ -f /etc/centos-release ]]; then
+	install_step yum
+else 
+	if [[ -f /etc/redhat-release ]]; then
+		install_step yum
+	fi
 fi
 
 
-if ! whiptail -v > /dev/null 2>&1; then
-	echo -e "${ARROW} ${YELLOW}安装 whiptail 中....${NC}"
-	pkg install -y whiptail > /dev/null 2>&1
-fi
 
-#install JQ
-if ! jq --version > /dev/null 2>&1; then
-	echo -e "${ARROW} ${YELLOW}安装 JQ 中....${NC}"
-	pkg install -y jq > /dev/null 2>&1
-fi
-
-if ! screen -v > /dev/null 2>&1; then
-	pkg install -y screen > /dev/null 2>&1
-fi
 
 while :
 do
@@ -330,7 +379,7 @@ do
 	figlet -f big "SugarChain"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${GREEN}版本: $dversion${NC}"
-	echo -e "${GREEN}系统: Android > 7.0${NC}"
+	echo -e "${GREEN}系统: Linux Ubuntu Centos${NC}"
 	echo -e "${GREEN}作者: bailaoshi${NC}"
 	echo -e "${GREEN}特别感谢 Kanon${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
@@ -351,7 +400,7 @@ do
 		sleep 2
 		Start_sugar_miner
 	 ;;
-	 2) 
+	 2)
 
 		sleep 2
 		Stop_sugar_miner
@@ -370,3 +419,4 @@ do
 		esac
 
 done
+
