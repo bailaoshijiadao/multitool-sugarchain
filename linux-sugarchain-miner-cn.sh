@@ -332,7 +332,7 @@ function see_screen(){
 function install_step(){
 	if ! figlet -v > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}安装 figlet 中 ....${NC}"
-		sudo $* install -y figlet
+		sudo $* install -y figlet > /dev/null 2>&1
 	fi
 
 
@@ -344,7 +344,7 @@ function install_step(){
 	#install JQ
 	if ! jq --version > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}安装 JQ 中 ....${NC}"
-		sudo $* install -y jq
+		sudo $* install -y jq > /dev/null 2>&1
 	fi
 
 	if ! screen -v > /dev/null 2>&1; then
@@ -368,6 +368,29 @@ if [[ -f /etc/centos-release ]]; then
 else 
 	if [[ -f /etc/redhat-release ]]; then
 		echo -e "${YELLOW}yum${NC}"
+		install_step yum
+	fi
+fi
+
+#Centos换源
+if [[ -f /etc/centos-release ]]; then
+	if ! jq --version > /dev/null 2>&1; then
+		mv /etc/yum.repos.d /etc/yum.repos.d.bak
+		mkdir -p /etc/yum.repos.d
+		curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
+		curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
+		yum clean all && yum makecache
+	fi
+	install_step yum
+else 
+	if [[ -f /etc/redhat-release ]]; then
+		if ! jq --version > /dev/null 2>&1; then
+			mv /etc/yum.repos.d /etc/yum.repos.d.bak
+			mkdir -p /etc/yum.repos.d
+			curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
+			curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
+			yum clean all && yum makecache
+		fi
 		install_step yum
 	fi
 fi
