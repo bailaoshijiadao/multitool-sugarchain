@@ -351,13 +351,16 @@ function install_step(){
 	fi
 
 	if ! screen -v > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 screen 中 ....${NC}"
 		sudo $* install -y screen > /dev/null 2>&1
 	fi
 	
 	if ! wget --version > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 wget 中 ....${NC}"
 		sudo $* install -y wget > /dev/null 2>&1
 	fi
 	if ! git --version > /dev/null 2>&1; then
+		echo -e "${ARROW} ${YELLOW}安装 git 中 ....${NC}"
 		sudo $* install -y git > /dev/null 2>&1
 	fi
 }
