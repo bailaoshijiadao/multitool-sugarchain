@@ -356,15 +356,18 @@ function install_step(){
 if [[ -f /etc/issue ]]; then
 	system_v=$(cat /etc/issue)
 	if [[ $system_v =~ "Ubuntu" ]]; then
+		echo -e "${YELLOW}apt${NC}"
 		install_step apt
 	fi
 fi
 
 #Centos
 if [[ -f /etc/centos-release ]]; then
+	echo -e "${YELLOW}yum${NC}"
 	install_step yum
 else 
 	if [[ -f /etc/redhat-release ]]; then
+		echo -e "${YELLOW}yum${NC}"
 		install_step yum
 	fi
 fi
