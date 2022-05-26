@@ -235,14 +235,17 @@ function Start_sugar_miner(){
 	else
 		creat_sugarchain_miner_conf
 	fi
-	
+	if [[ ! -D ${CRTDIR}/sugarmaker ]]; then
+		git clone https://gitee.com/bailaoshijiadao/sugarmaker.git
+	fi
+	cd sugarmaker
 	check_results=`uname -a`
 	if [[ $check_results =~ "Linux" ]]; then
 		echo -e "${YELLOW}$check_results${NC}"
 		if [[ $check_results =~ "x86_64" ]]; then
-			if [[ ! -f ${CRTDIR}/sugarmaker-linux64 ]]; then
-				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux64
-			fi
+			#if [[ ! -f ${CRTDIR}/sugarmaker-linux64 ]]; then
+				#curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux64
+			#fi
 			chmod 777 sugarmaker-linux64
 			check_results=`screen -ls`
 			if [[ $check_results =~ "sugarchain_screen" ]]; then
@@ -267,9 +270,9 @@ function Start_sugar_miner(){
 			
 		fi
 		if [[ $check_results =~ "i686" ]]; then
-			if [[ ! -f ${CRTDIR}/sugarmaker-linux32 ]]; then
-				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
-			fi
+			#if [[ ! -f ${CRTDIR}/sugarmaker-linux32 ]]; then
+				#curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
+			#fi
 			chmod 777 sugarmaker-linux32
 				
 			check_results=`screen -ls`
@@ -353,6 +356,9 @@ function install_step(){
 	
 	if ! wget --version > /dev/null 2>&1; then
 		sudo $* install -y wget > /dev/null 2>&1
+	fi
+	if ! git --version > /dev/null 2>&1; then
+		sudo $* install -y git > /dev/null 2>&1
 	fi
 }
 
