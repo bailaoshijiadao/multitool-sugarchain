@@ -235,7 +235,7 @@ function Start_sugar_miner(){
 	else
 		creat_sugarchain_miner_conf
 	fi
-	if [[ ! -D ${CRTDIR}/sugarmaker ]]; then
+	if [[ ! -d ${CRTDIR}/sugarmaker ]]; then
 		git clone https://gitee.com/bailaoshijiadao/sugarmaker.git
 	fi
 	cd sugarmaker
