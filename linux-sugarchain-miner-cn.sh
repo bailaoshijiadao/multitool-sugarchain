@@ -241,7 +241,7 @@ function Start_sugar_miner(){
 		echo -e "${YELLOW}$check_results${NC}"
 		if [[ $check_results =~ "x86_64" ]]; then
 			if [[ ! -f ${CRTDIR}/sugarmaker-linux64 ]]; then
-				wget https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux64
+				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux64
 			fi
 			chmod 777 sugarmaker-linux64
 			check_results=`screen -ls`
@@ -268,7 +268,7 @@ function Start_sugar_miner(){
 		fi
 		if [[ $check_results =~ "i686" ]]; then
 			if [[ ! -f ${CRTDIR}/sugarmaker-linux32 ]]; then
-				wget https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
+				curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
 			fi
 			chmod 777 sugarmaker-linux32
 				
