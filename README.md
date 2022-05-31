@@ -16,6 +16,10 @@ Linux系统开采<br>
 适用系统: Ubuntu Centos<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-miner-cn.sh)```
 
+Linux系统节点一键创建
+适用系统: Ubuntu Centos
+bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-node-cn.sh)
+
 <br>
 如果你觉得这个有用，可以捐助我。<br>
 SUGAR捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
