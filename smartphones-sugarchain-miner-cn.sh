@@ -243,7 +243,7 @@ function Start_sugar_miner(){
 	
 	check_results=`screen -ls`
 	if [[ $check_results =~ "sugarchain_screen" ]]; then
-		string_limit_check_mark "检测已有开采串口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
+		string_limit_check_mark "检测已有开采窗口,开始关闭原有窗口........." "检测已有开采窗口,开始关闭原有窗口${GREEN}${CYAN} ........."
 		Stop_sugar_miner
 	fi
 	
