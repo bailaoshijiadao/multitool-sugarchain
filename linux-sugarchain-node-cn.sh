@@ -41,6 +41,46 @@ function string_limit_x_mark(){
 	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
 }
 
+CUR_PATH=$(cd "$(dirname "$0")"; pwd)
+
+# 要定时执行的任务
+TASK_COMMAND="cat /dev/null > ${CRTDIR}/.sugarchain/debug.log"
+# 要添加的crontab任务
+CRONTAB_TASK="*/60 * * * * ${TASK_COMMAND}"
+# 备份原始crontab记录文件
+CRONTAB_BAK_FILE="${CUR_PATH}/crontab_bak"
+
+# 创建crontab任务函数
+function create_crontab()
+{
+	crontab_results=`crontab -l`
+	if [[ ! $crontab_results =~ "/.sugarchain/debug.log" ]]; then
+		echo -e "${CYAN}开始创建定时定时清除日志任务${NC}"
+		echo "${CRONTAB_TASK}" >> ${CRONTAB_BAK_FILE}
+		crontab ${CRONTAB_BAK_FILE}
+		string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
+	else
+		string_limit_check_mark "已有定时任务........." "已有定时任务${GREEN}${CYAN} ........."
+	fi
+    
+}
+
+create_crontab
+
+function update_sugar_node(){
+	echo -e "${CYAN}开始更新节点配置文件${NC}"
+	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
+server=1
+rpcuser=baihe
+rpcpassword=passwordbaihe
+rpcallowip=127.0.0.1
+
+addnode=222.186.175.58
+addnode=45.195.149.108
+EOF
+	string_limit_check_mark "节点配置文件更新成功........." "节点配置文件更新成功${GREEN}${CYAN} ........."
+}
+
 function Start_sugar_node(){
 	echo -e "${CYAN}糖链节点安装程序启动时,您可以按[CTRL+C]取消${NC}"
 	sleep 5
@@ -49,16 +89,10 @@ function Start_sugar_node(){
 	if [[ ! -d ${CRTDIR}/.sugarchain ]]; then
 		mkdir -p ${CRTDIR}/.sugarchain
 	fi
-
-	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
-{
-	server=1
-	rpcuser=baihe
-	rpcpassword=passwordbaihe
-	rpcallowip=127.0.0.1
-}
-EOF
-
+	if [[ ! -f ${CRTDIR}/.sugarchain/sugarchain.conf ]]; then
+		update_sugar_node
+	fi
+	
 	check_results=`uname -a`
 	if [[ $check_results =~ "Linux" ]]; then
 		echo -e "${YELLOW}$check_results${NC}"
@@ -81,14 +115,38 @@ EOF
 		cd ${CRTDIR}/sugarchain-0.16.3
 	fi
 	
-	~/sugarchain-0.16.3/bin/sugarchaind
+	
+	check_results=`screen -ls`
+	if [[ $check_results =~ "sugarchain_node" ]]; then
+		if ! ~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
+			string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_node"
+			screen -dmS $screen_name
+			cmd=$"~/sugarchain-0.16.3/bin/sugarchaind"		
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			sleep 2
+			string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
+			sleep 5
+		else
+			string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
+			sleep 5
+		fi
+		
+	fi
+	
+	
 	
 }
 
 
-function Stop_sugar_miner(){
+function Stop_sugar_node(){
 	cd ~/
+	echo -e "${ARROW} ${YELLOW}开始关闭糖链节点 ....${NC}"
 	~/sugarchain-0.16.3/bin/sugarchain-cli stop
+	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
+	string_limit_check_mark "关闭糖链节点成功......" "关闭糖链节点成功${GREEN}${CYAN} ......"
+	sleep 5
 }
 
 function install_step(){
@@ -187,9 +245,11 @@ do
 	echo -e "${GREEN}作者: bailaoshi${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${CYAN}1  - 启动糖链节点[包含安装过程]${NC}"
-	echo -e "${CYAN}2  - 停止糖链节点${NC}"
-	echo -e "${CYAN}3  - 查看钱包当前区块数量${NC}"
-	echo -e "${CYAN}4  - 查看节点连接数${NC}"
+	echo -e "${CYAN}2  - 更新节点配置文件[根据黑猫文件更新内容]${NC}"
+	echo -e "${CYAN}3  - 停止糖链节点${NC}"
+	echo -e "${CYAN}4  - 查看钱包当前区块数量${NC}"
+	echo -e "${CYAN}5  - 查看节点连接数${NC}"
+	echo -e "${CYAN}6  - 查看钱包版本${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******糖链一健创建节点******${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
@@ -203,19 +263,28 @@ do
 		Start_sugar_node
 	 ;;
 	 2)
+		sleep 2
+		update_sugar_node
+	 ;;
+	 3)
 
 		sleep 2
 		Stop_sugar_node
 	 ;;
-	 3) 
+	 4) 
 
 		sleep 2
 		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount
 	 ;;
-	 4) 
+	 5) 
 
 		sleep 2
 		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getconnectioncount
+	 ;;
+	 6) 
+
+		sleep 2
+		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version
 	 ;;
 
 		esac
