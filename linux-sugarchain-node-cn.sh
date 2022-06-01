@@ -62,7 +62,6 @@ function create_crontab()
 	else
 		string_limit_check_mark "已有定时任务........." "已有定时任务${GREEN}${CYAN} ........."
 	fi
-    
 }
 
 create_crontab
@@ -93,50 +92,58 @@ function Start_sugar_node(){
 		update_sugar_node
 	fi
 	
+	if [[ ! -d ${CRTDIR}/sugarwallet ]]; then
+		https://gitee.com/bailaoshijiadao/sugarwallet.git
+	fi
+	
 	check_results=`uname -a`
 	if [[ $check_results =~ "Linux" ]]; then
 		echo -e "${YELLOW}$check_results${NC}"
 		if [[ $check_results =~ "x86_64" ]]; then
-			if [[ ! -d ${CRTDIR}/sugarchain-0.16.3 ]]; then
-				wget https://github.com/sugarchain-project/sugarchain/releases/download/v0.16.3.36-payapoya/sugarchain-0.16.3.36-payapoya-x86_64-linux-gnu.tar.gz
-				tar -zxvf sugarchain-0.16.3.36-payapoya-x86_64-linux-gnu.tar.gz
+			if [[ ! -d ${CRTDIR}/sugarwallet/sugarchain-0.16.3-win64 ]]; then
+				check_results=`screen -ls`
+				if [[ $check_results =~ "sugarchain_node" ]]; then
+					if ! ~/sugarwallet/sugarchain-0.16.3-win64/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
+						string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
+						screen_name=$"sugarchain_node"
+						screen -dmS $screen_name
+						cmd=$"~/sugarwallet/sugarchain-0.16.3-win64/bin/sugarchaind"		
+						screen -x -S $screen_name -p 0 -X stuff "$cmd"
+						screen -x -S $screen_name -p 0 -X stuff $'\n'
+						sleep 2
+						string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
+						sleep 5
+					else
+						string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
+						sleep 5
+					fi
+					
+				fi
 			fi
 		fi
 		if [[ $check_results =~ "i686" ]]; then
-			if [[ ! -d ${CRTDIR}/sugarchain-0.16.3 ]]; then
-				#curl -O https://gitee.com/bailaoshijiadao/sugarmaker/raw/main/sugarmaker-linux32
-				wget https://github.com/sugarchain-project/sugarchain/releases/download/v0.16.3.36-payapoya/sugarchain-0.16.3.36-payapoya-i686-pc-linux-gnu.tar.gz
-				tar -zxvf sugarchain-0.16.3.36-payapoya-i686-pc-linux-gnu.tar.gz
+			if [[ ! -d ${CRTDIR}/sugarwallet/sugarchain-0.16.3-win32 ]]; then
+				check_results=`screen -ls`
+				if [[ $check_results =~ "sugarchain_node" ]]; then
+					if ! ~/sugarwallet/sugarchain-0.16.3-win32/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
+						string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
+						screen_name=$"sugarchain_node"
+						screen -dmS $screen_name
+						cmd=$"~/sugarwallet/sugarchain-0.16.3-win32/bin/sugarchaind"		
+						screen -x -S $screen_name -p 0 -X stuff "$cmd"
+						screen -x -S $screen_name -p 0 -X stuff $'\n'
+						sleep 2
+						string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
+						sleep 5
+					else
+						string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
+						sleep 5
+					fi
+					
+				fi
 			fi
 		fi
-	fi
-	
-	if [[ -d ${CRTDIR}/sugarchain-0.16.3 ]]; then
-		cd ${CRTDIR}/sugarchain-0.16.3
-	fi
-	
-	
-	check_results=`screen -ls`
-	if [[ $check_results =~ "sugarchain_node" ]]; then
-		if ! ~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
-			string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
-			screen_name=$"sugarchain_node"
-			screen -dmS $screen_name
-			cmd=$"~/sugarchain-0.16.3/bin/sugarchaind"		
-			screen -x -S $screen_name -p 0 -X stuff "$cmd"
-			screen -x -S $screen_name -p 0 -X stuff $'\n'
-			sleep 2
-			string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
-			sleep 5
-		else
-			string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
-			sleep 5
-		fi
-		
-	fi
-	
-	
-	
+	fi	
 }
 
 
