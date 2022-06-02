@@ -231,7 +231,8 @@ do
 	echo -e "${CYAN}3  - 查看钱包当前区块数量${NC}"
 	echo -e "${CYAN}4  - 查看节点连接数${NC}"
 	echo -e "${CYAN}5  - 查看钱包版本${NC}"
-	echo -e "${CYAN}6  - 停止糖链节点${NC}"
+	echo -e "${CYAN}6  - 查看区块头下载进度${NC}"
+	echo -e "${CYAN}7  - 停止糖链节点${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******糖链一健创建节点******${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
@@ -264,7 +265,12 @@ do
 		sleep 2
 		${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version
 	 ;;
-	 6)
+	 6) 
+
+		sleep 2
+		${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockchaininfo | grep headers
+	 ;;
+	 7)
 		sleep 2
 		Stop_sugar_node
 	 ;;
