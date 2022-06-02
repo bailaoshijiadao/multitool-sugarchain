@@ -46,7 +46,7 @@ CUR_PATH=$(cd "$(dirname "$0")"; pwd)
 # 要定时执行的任务
 TASK_COMMAND="cat /dev/null > ${CRTDIR}/.sugarchain/debug.log"
 # 要添加的crontab任务
-CRONTAB_TASK="*/60 * * * * ${TASK_COMMAND}"
+CRONTAB_TASK="*/3000 * * * * ${TASK_COMMAND}"
 # 备份原始crontab记录文件
 CRONTAB_BAK_FILE="${CUR_PATH}/crontab_bak"
 
