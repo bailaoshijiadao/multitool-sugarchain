@@ -64,8 +64,6 @@ function create_crontab()
 	fi
 }
 
-create_crontab
-
 function update_sugar_node(){
 	echo -e "${CYAN}开始更新节点配置文件${NC}"
 	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
@@ -92,65 +90,37 @@ function Start_sugar_node(){
 		update_sugar_node
 	fi
 	
-	if [[ ! -d ${CRTDIR}/sugarwallet ]]; then
-		https://gitee.com/bailaoshijiadao/sugarwallet.git
+	if [[ ! -d ${CRTDIR}/sugarwallet-linux${system_bits} ]]; then
+		git clone https://gitee.com/bailaoshijiadao/sugarwallet-linux${system_bits}.git
+		chmod 755 ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli
+		chmod 755 ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchaind
 	fi
-	
-	check_results=`uname -a`
-	if [[ $check_results =~ "Linux" ]]; then
-		echo -e "${YELLOW}$check_results${NC}"
-		if [[ $check_results =~ "x86_64" ]]; then
-			if [[ ! -d ${CRTDIR}/sugarwallet/sugarchain-0.16.3-win64 ]]; then
-				check_results=`screen -ls`
-				if [[ $check_results =~ "sugarchain_node" ]]; then
-					if ! ~/sugarwallet/sugarchain-0.16.3-win64/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
-						string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
-						screen_name=$"sugarchain_node"
-						screen -dmS $screen_name
-						cmd=$"~/sugarwallet/sugarchain-0.16.3-win64/bin/sugarchaind"		
-						screen -x -S $screen_name -p 0 -X stuff "$cmd"
-						screen -x -S $screen_name -p 0 -X stuff $'\n'
-						sleep 2
-						string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
-						sleep 5
-					else
-						string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
-						sleep 5
-					fi
-					
-				fi
-			fi
-		fi
-		if [[ $check_results =~ "i686" ]]; then
-			if [[ ! -d ${CRTDIR}/sugarwallet/sugarchain-0.16.3-win32 ]]; then
-				check_results=`screen -ls`
-				if [[ $check_results =~ "sugarchain_node" ]]; then
-					if ! ~/sugarwallet/sugarchain-0.16.3-win32/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1; then
-						string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
-						screen_name=$"sugarchain_node"
-						screen -dmS $screen_name
-						cmd=$"~/sugarwallet/sugarchain-0.16.3-win32/bin/sugarchaind"		
-						screen -x -S $screen_name -p 0 -X stuff "$cmd"
-						screen -x -S $screen_name -p 0 -X stuff $'\n'
-						sleep 2
-						string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
-						sleep 5
-					else
-						string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
-						sleep 5
-					fi
-					
-				fi
-			fi
-		fi
-	fi	
-}
 
+	if [[ -d ${CRTDIR}/sugarwallet-linux${system_bits} ]]; then
+		if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1 ; then
+			screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
+			string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
+			screen_name=$"sugarchain_node"
+			screen -dmS $screen_name
+			cmd=$"~/sugarwallet-linux${system_bits}/bin/sugarchaind"		
+			screen -x -S $screen_name -p 0 -X stuff "$cmd"
+			screen -x -S $screen_name -p 0 -X stuff $'\n'
+			sleep 5
+			if ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version > /dev/null 2>&1 ; then
+				string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
+			fi
+			sleep 5
+		else
+			string_limit_check_mark "检测节点已启动,无需重复启动........." "检测节点已启动,无需重复启动${GREEN}${CYAN} ........."
+			sleep 5
+		fi
+	fi
+}
 
 function Stop_sugar_node(){
 	cd ~/
 	echo -e "${ARROW} ${YELLOW}开始关闭糖链节点 ....${NC}"
-	~/sugarchain-0.16.3/bin/sugarchain-cli stop
+	${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli stop
 	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 	string_limit_check_mark "关闭糖链节点成功......" "关闭糖链节点成功${GREEN}${CYAN} ......"
 	sleep 5
@@ -187,12 +157,6 @@ function install_step(){
 		echo -e "${ARROW} ${YELLOW}安装 git 中 ....${NC}"
 		sudo $* install -y git > /dev/null 2>&1
 	fi
-	
-	#if ! node -v > /dev/null 2>&1; then
-		#echo -e "${ARROW} ${YELLOW}安装 nodejs 中 ....${NC}"
-		#curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash > /dev/null 2>&1
-		#sudo $* install -y nodejs > /dev/null 2>&1
-	#fi
 }
 
 #Ubuntu
@@ -200,6 +164,7 @@ if [[ -f /etc/issue ]]; then
 	system_v=$(cat /etc/issue)
 	if [[ $system_v =~ "Ubuntu" ]]; then
 		echo -e "${YELLOW}apt${NC}"
+		sudo apt-get update
 		install_step apt
 	fi
 fi
@@ -238,8 +203,18 @@ else
 	fi
 fi
 
+check_results=`uname -a`
+if [[ $check_results =~ "Linux" ]]; then
+	echo -e "${YELLOW}$check_results${NC}"
+	if [[ $check_results =~ "x86_64" ]]; then
+		system_bits="64"
+	fi
+	if [[ $check_results =~ "i686" ]]; then
+		system_bits="32"
+	fi
+fi
 
-
+create_crontab
 
 while :
 do
@@ -253,10 +228,10 @@ do
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${CYAN}1  - 启动糖链节点[包含安装过程]${NC}"
 	echo -e "${CYAN}2  - 更新节点配置文件[根据黑猫文件更新内容]${NC}"
-	echo -e "${CYAN}3  - 停止糖链节点${NC}"
-	echo -e "${CYAN}4  - 查看钱包当前区块数量${NC}"
-	echo -e "${CYAN}5  - 查看节点连接数${NC}"
-	echo -e "${CYAN}6  - 查看钱包版本${NC}"
+	echo -e "${CYAN}3  - 查看钱包当前区块数量${NC}"
+	echo -e "${CYAN}4  - 查看节点连接数${NC}"
+	echo -e "${CYAN}5  - 查看钱包版本${NC}"
+	echo -e "${CYAN}6  - 停止糖链节点${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******糖链一健创建节点******${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
@@ -270,28 +245,28 @@ do
 		Start_sugar_node
 	 ;;
 	 2)
+
 		sleep 2
 		update_sugar_node
 	 ;;
-	 3)
+	 3) 
 
 		sleep 2
-		Stop_sugar_node
+		${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount
 	 ;;
 	 4) 
 
 		sleep 2
-		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount
+		${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getconnectioncount
 	 ;;
 	 5) 
 
 		sleep 2
-		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getconnectioncount
+		${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version
 	 ;;
-	 6) 
-
+	 6)
 		sleep 2
-		~/sugarchain-0.16.3/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version
+		Stop_sugar_node
 	 ;;
 
 		esac
