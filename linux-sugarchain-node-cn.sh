@@ -157,6 +157,25 @@ function install_step(){
 		echo -e "${ARROW} ${YELLOW}安装 git 中 ....${NC}"
 		sudo $* install -y git > /dev/null 2>&1
 	fi
+	
+	
+	if ! ls -lh /swapfile > /dev/null 2>&1; then
+		sudo fallocate -l 8G /swapfile
+	fi
+	
+	sudo chmod 755 /swapfile
+	sudo mkswap /swapfile
+	sudo swapon /swapfile
+	sudo swapon -s
+	
+	swapfile_flag=`cat /etc/fstab`
+	if [[ $swapfile_flag =~ "swapfile" ]]; then
+		echo -e "${ARROW} ${YELLOW}虚拟内存已开机自动挂载,无需重新设置....${NC}"
+	else
+		sed -i '$a /swapfile  none  swap  sw  0  0' /etc/fstab
+		echo -e "${ARROW} ${YELLOW}虚拟内存开机自动挂载设置成功....${NC}"
+	fi
+
 }
 
 #Ubuntu
