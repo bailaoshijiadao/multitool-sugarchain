@@ -178,50 +178,6 @@ function install_step(){
 
 }
 
-#Ubuntu
-if [[ -f /etc/issue ]]; then
-	system_v=$(cat /etc/issue)
-	if [[ $system_v =~ "Ubuntu" ]]; then
-		echo -e "${YELLOW}apt${NC}"
-		sudo apt-get update
-		install_step apt
-	fi
-fi
-
-#Centos
-if [[ -f /etc/centos-release ]]; then
-	echo -e "${YELLOW}yum${NC}"
-	install_step yum
-else 
-	if [[ -f /etc/redhat-release ]]; then
-		echo -e "${YELLOW}yum${NC}"
-		install_step yum
-	fi
-fi
-
-#Centos换源
-if [[ -f /etc/centos-release ]]; then
-	if ! jq --version > /dev/null 2>&1; then
-		mv /etc/yum.repos.d /etc/yum.repos.d.bak
-		mkdir -p /etc/yum.repos.d
-		curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
-		curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
-		yum clean all && yum makecache
-	fi
-	install_step yum
-else 
-	if [[ -f /etc/redhat-release ]]; then
-		if ! jq --version > /dev/null 2>&1; then
-			mv /etc/yum.repos.d /etc/yum.repos.d.bak
-			mkdir -p /etc/yum.repos.d
-			curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
-			curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
-			yum clean all && yum makecache
-		fi
-		install_step yum
-	fi
-fi
-
 check_results=`uname -a`
 if [[ $check_results =~ "Linux" ]]; then
 	echo -e "${YELLOW}$check_results${NC}"
@@ -230,6 +186,52 @@ if [[ $check_results =~ "Linux" ]]; then
 	fi
 	if [[ $check_results =~ "i686" ]]; then
 		system_bits="32"
+	fi
+fi
+
+if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1 ; then
+	#Ubuntu
+	if [[ -f /etc/issue ]]; then
+		system_v=$(cat /etc/issue)
+		if [[ $system_v =~ "Ubuntu" ]]; then
+			echo -e "${YELLOW}apt${NC}"
+			sudo apt-get update
+			install_step apt
+		fi
+	fi
+
+	#Centos
+	if [[ -f /etc/centos-release ]]; then
+		echo -e "${YELLOW}yum${NC}"
+		install_step yum
+	else 
+		if [[ -f /etc/redhat-release ]]; then
+			echo -e "${YELLOW}yum${NC}"
+			install_step yum
+		fi
+	fi
+
+	#Centos换源
+	if [[ -f /etc/centos-release ]]; then
+		if ! jq --version > /dev/null 2>&1; then
+			mv /etc/yum.repos.d /etc/yum.repos.d.bak
+			mkdir -p /etc/yum.repos.d
+			curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
+			curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
+			yum clean all && yum makecache
+		fi
+		install_step yum
+	else 
+		if [[ -f /etc/redhat-release ]]; then
+			if ! jq --version > /dev/null 2>&1; then
+				mv /etc/yum.repos.d /etc/yum.repos.d.bak
+				mkdir -p /etc/yum.repos.d
+				curl https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo > /etc/yum.repos.d/Centos-vault-8.5.2111.repo
+				curl https://mirrors.aliyun.com/repo/epel-archive-8.repo > /etc/yum.repos.d/epel-archive-8.repo
+				yum clean all && yum makecache
+			fi
+			install_step yum
+		fi
 	fi
 fi
 
