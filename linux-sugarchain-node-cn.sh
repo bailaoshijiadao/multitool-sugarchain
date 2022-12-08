@@ -41,33 +41,22 @@ function string_limit_x_mark(){
 	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
 }
 
-CUR_PATH=$(cd "$(dirname "$0")"; pwd)
-
-# 要定时执行的任务
-TASK_COMMAND="cat /dev/null > ${CRTDIR}/.sugarchain/debug.log"
-# 要添加的crontab任务
-CRONTAB_TASK="*/3000 * * * * ${TASK_COMMAND}"
-# 备份原始crontab记录文件
-CRONTAB_BAK_FILE="${CUR_PATH}/crontab_bak"
-
-# 创建crontab任务函数
-function create_crontab()
-{
-	crontab_results=`crontab -l`
-	if [[ ! $crontab_results =~ "/.sugarchain/debug.log" ]]; then
-		echo -e "${CYAN}开始创建定时定时清除日志任务${NC}"
-		echo "${CRONTAB_TASK}" >> ${CRONTAB_BAK_FILE}
-		crontab ${CRONTAB_BAK_FILE}
-		string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
-	else
-		string_limit_check_mark "已有定时任务........." "已有定时任务${GREEN}${CYAN} ........."
-	fi
-}
+# 创建crontab任务
+CRON_LINE="cat /dev/null >  ${CRTDIR}/.sugarchain/debug.log"
+CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
+if [ $CRON_EXISTS -eq 0 ]
+then
+	crontab -l | { cat; echo "*/3600 * * * * $CRON_LINE"; } | crontab -
+	string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
+else
+	string_limit_check_mark "已有定时任务........." "已有定时任务${GREEN}${CYAN} ........."
+fi
 
 function update_sugar_node(){
 	echo -e "${CYAN}开始更新节点配置文件${NC}"
 	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
 server=1
+txindex=1
 rpcuser=baihe
 rpcpassword=passwordbaihe
 rpcallowip=127.0.0.1
