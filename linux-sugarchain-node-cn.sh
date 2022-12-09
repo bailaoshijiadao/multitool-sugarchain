@@ -178,7 +178,7 @@ if [[ $check_results =~ "Linux" ]]; then
 	fi
 fi
 
-if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1 ; then
+if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version > /dev/null 2>&1 ; then
 	#Ubuntu
 	if [[ -f /etc/issue ]]; then
 		system_v=$(cat /etc/issue)
