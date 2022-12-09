@@ -224,8 +224,6 @@ if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe
 	fi
 fi
 
-create_crontab
-
 while :
 do
 	sleep 1
