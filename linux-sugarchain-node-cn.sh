@@ -41,17 +41,6 @@ function string_limit_x_mark(){
 	echo -e "${ARROW}${CYAN}$string[${CHECK_MARK}${RED}×${CYAN}]${NC}"
 }
 
-# 创建crontab任务
-CRON_LINE="cat /dev/null >  ${CRTDIR}/.sugarchain/debug.log"
-CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
-if [ $CRON_EXISTS -eq 0 ]
-then
-	crontab -l | { cat; echo "*/3600 * * * * $CRON_LINE"; } | crontab -
-	string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
-else
-	string_limit_check_mark "已有定时任务........." "已有定时任务${GREEN}${CYAN} ........."
-fi
-
 function update_sugar_node(){
 	echo -e "${CYAN}开始更新节点配置文件${NC}"
 	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
@@ -86,16 +75,11 @@ function Start_sugar_node(){
 	fi
 
 	if [[ -d ${CRTDIR}/sugarwallet-linux${system_bits} ]]; then
-		if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getblockcount > /dev/null 2>&1 ; then
-			screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
-			string_limit_check_mark "开始创建节点窗口............................." "开始创建节点窗口${GREEN}${CYAN} ................................."
-			screen_name=$"sugarchain_node"
-			screen -dmS $screen_name
-			cmd=$"~/sugarwallet-linux${system_bits}/bin/sugarchaind"		
-			screen -x -S $screen_name -p 0 -X stuff "$cmd"
-			screen -x -S $screen_name -p 0 -X stuff $'\n'
+		if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getconnectioncount > /dev/null 2>&1 ; then
+			#screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh	
+			${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchaind -daemon
 			sleep 5
-			if ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version > /dev/null 2>&1 ; then
+			if ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe getconnectioncount > /dev/null 2>&1 ; then
 				string_limit_check_mark "已启动糖链节点,请10秒后输入其他数字查看节点状态......" "已启动糖链节点,请10秒后输入其他数字查看节点状态${GREEN}${CYAN} ......"
 			fi
 			sleep 5
@@ -110,7 +94,6 @@ function Stop_sugar_node(){
 	cd ~/
 	echo -e "${ARROW} ${YELLOW}开始关闭糖链节点 ....${NC}"
 	${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli stop
-	screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
 	string_limit_check_mark "关闭糖链节点成功......" "关闭糖链节点成功${GREEN}${CYAN} ......"
 	sleep 5
 }
@@ -176,6 +159,26 @@ if [[ $check_results =~ "Linux" ]]; then
 	if [[ $check_results =~ "i686" ]]; then
 		system_bits="32"
 	fi
+fi
+# 创建crontab任务
+CRON_LINE="cat /dev/null >  ${CRTDIR}/.sugarchain/debug.log"
+CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
+if [ $CRON_EXISTS -eq 0 ]
+then
+	crontab -l | { cat; echo "*/3600 * * * * $CRON_LINE"; } | crontab -
+	string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
+else
+	string_limit_check_mark "已有定时清除任务........." "已有定时清除任务${GREEN}${CYAN} ........."
+fi
+
+CRON_LINE="${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchaind -daemon"
+CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
+if [ $CRON_EXISTS -eq 0 ]
+then
+	crontab -l | { cat; echo "*/5 * * * * $CRON_LINE"; } | crontab -
+	string_limit_check_mark "定时启动任务设置完成........." "定时启动任务设置完成.........${GREEN}${CYAN} ........."
+else
+	string_limit_check_mark "已有定时启动任务........." "已有定时启动任务${GREEN}${CYAN} ........."
 fi
 
 if ! ${CRTDIR}/sugarwallet-linux${system_bits}/bin/sugarchain-cli -rpcuser=baihe -rpcpassword=passwordbaihe -version > /dev/null 2>&1 ; then
