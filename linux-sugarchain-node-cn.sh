@@ -45,7 +45,6 @@ function update_sugar_node(){
 	echo -e "${CYAN}开始更新节点配置文件${NC}"
 	cat << EOF >  ${CRTDIR}/.sugarchain/sugarchain.conf
 server=1
-txindex=1
 rpcuser=baihe
 rpcpassword=passwordbaihe
 rpcallowip=127.0.0.1
