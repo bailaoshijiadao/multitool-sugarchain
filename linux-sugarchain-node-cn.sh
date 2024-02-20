@@ -48,7 +48,9 @@ server=1
 rpcuser=baihe
 rpcpassword=passwordbaihe
 rpcallowip=127.0.0.1
-addresindex=1
+addressindex=1
+txindex=1
+spentindex=1
 
 addnode=222.186.175.58
 addnode=45.195.149.108
