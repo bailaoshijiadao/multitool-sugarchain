@@ -1,4 +1,6 @@
 #!/bin/bash
+#disable bash history
+set +o history
 
 #color codes
 RED='\033[1;31m'
