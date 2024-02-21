@@ -54,8 +54,10 @@ addressindex=1
 txindex=1
 spentindex=1
 
-addnode=222.186.175.58
-addnode=45.195.149.108
+addnode=172.7.16.63
+addnode=211.216.3.196
+addnode=195.3.222.59
+addnode=75.188.243.94
 EOF
 	string_limit_check_mark "节点配置文件更新成功........." "节点配置文件更新成功${GREEN}${CYAN} ........."
 }
