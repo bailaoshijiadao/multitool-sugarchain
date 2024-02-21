@@ -44,6 +44,10 @@ Linux mining<br>
 OS: Ubuntu Centos<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-miner-en.sh)```
 
+One click creation of Linux system nodes<br>
+Applicable system: Ubuntu Centos<br>
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-node-en.sh)```
+
 <br>
 If you find this useful, you can donate it to me.<br>
 SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
