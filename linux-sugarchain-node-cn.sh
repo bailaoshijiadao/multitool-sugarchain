@@ -251,7 +251,7 @@ do
 	echo -e "${CYAN}6  - 查看区块头下载进度${NC}"
 	echo -e "${CYAN}7  - 停止糖链节点${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
-	echo -e "${YELLOW}******糖链一健创建节点******${NC}"
+	echo -e "${YELLOW}******糖链一键创建节点******${NC}"
 	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
 
 	read -rp "请输入数字选项并按回车键: "
