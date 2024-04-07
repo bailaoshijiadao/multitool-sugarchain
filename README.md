@@ -24,6 +24,7 @@ Linux系统API节点一键创建<br>
 适用系统: Ubuntu Centos<br>
 ①运行下面命令输入数字1，自动搭建API节点<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-apiserver-cn.sh)```
+
 ②设置域名解析到VPS的公网IP,输入数字8后根据提示输入域名等信息[无域名可跳过此步骤,访问IP地址即可,http://IP:5000]<br>
 
 <br>
@@ -58,6 +59,7 @@ One click creation of Linux system API nodes<br>
 Applicable system: Ubuntu Centos<br>
 ①Run the following command and enter the number 1 to automatically set up an API node<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-apiserver-en.sh)```
+
 ②Set the public IP address for domain name resolution to VPS, enter the number 8, and follow the prompts to enter domain name and other information<br>
 [If there is no domain name, you can skip this step and access the IP address.http://IP:5000]<br>
 
