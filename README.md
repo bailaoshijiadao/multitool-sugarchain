@@ -25,7 +25,8 @@ Linux系统API节点一键创建<br>
 ①运行下面命令输入数字1，自动搭建API节点<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-apiserver-cn.sh)```
 
-②设置域名解析到VPS的公网IP,输入数字8后根据提示输入域名等信息[无域名可跳过此步骤,访问IP地址即可,http://IP:5000]<br>
+②设置域名解析到VPS的公网IP,输入数字8后根据提示输入域名等信息<br>
+[无域名可跳过此步骤,访问IP地址即可,http://IP:5000]<br>
 
 <br>
 如果你觉得这个有用，可以捐助我。<br>
