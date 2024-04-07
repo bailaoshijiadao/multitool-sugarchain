@@ -172,7 +172,7 @@ CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
 if [ $CRON_EXISTS -eq 0 ]
 then
 	crontab -l | { cat; echo "*/3600 * * * * $CRON_LINE"; } | crontab -
-	string_limit_check_mark "定时定时清除日志任务完成........." "定时定时清除日志任务完成${GREEN}${CYAN} ........."
+	string_limit_check_mark "定时清除日志任务完成........." "定时清除日志任务完成${GREEN}${CYAN} ........."
 else
 	string_limit_check_mark "已有定时清除任务........." "已有定时清除任务${GREEN}${CYAN} ........."
 fi
@@ -244,7 +244,7 @@ do
 	echo -e "${GREEN}作者: bailaoshi${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${CYAN}1  - 启动糖链节点[包含安装过程]${NC}"
-	echo -e "${CYAN}2  - 更新节点配置文件[根据黑猫文件更新内容]${NC}"
+	echo -e "${CYAN}2  - 更新节点配置文件[根据github文件更新内容]${NC}"
 	echo -e "${CYAN}3  - 查看钱包当前区块数量${NC}"
 	echo -e "${CYAN}4  - 查看节点连接数${NC}"
 	echo -e "${CYAN}5  - 查看钱包版本${NC}"

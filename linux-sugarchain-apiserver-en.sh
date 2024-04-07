@@ -65,7 +65,7 @@ EOF
 }
 
 function Start_sugar_node(){
-	echo -e "${CYAN}When the sugar chain node installation program starts,You can press [CTRL+C] to cancel${NC}"
+	echo -e "${CYAN}When the sugar chain API node installation program starts,You can press [CTRL+C] to cancel${NC}"
 	sleep 5
 	cd ~/
 	
