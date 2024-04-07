@@ -16,6 +16,8 @@ Linux系统开采<br>
 适用系统: Ubuntu Centos<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-miner-cn.sh)```
 
+节点配置最低要求：<br>
+4核8G内存100G硬盘,需要设置16G虚拟内存<br>
 Linux系统节点一键创建<br>
 适用系统: Ubuntu Centos<br>
 ```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-node-cn.sh)```
@@ -52,6 +54,9 @@ Linux mining<br>
 OS: Ubuntu Centos<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-miner-en.sh)```
 
+
+Minimum requirements for node configuration:<br>
+4-core 8GB memory 100GB SSD,16G virtual memory needs to be set up<br>
 One click creation of Linux system nodes<br>
 Applicable system: Ubuntu Centos<br>
 ```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-node-en.sh)```
