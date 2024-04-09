@@ -96,9 +96,24 @@ function Start_sugar_node(){
 	fi
 	
 	if [[ ! -d ${CRTDIR}/sugarchain-API-addressindex ]]; then
+		cd
 		git clone https://github.com/bailaoshijiadao/sugarchain-API-addressindex.git
 		chmod 755 ${CRTDIR}/sugarchain-API-addressindex/sugarchain-cli
 		chmod 755 ${CRTDIR}/sugarchain-API-addressindex/sugarchaind
+	fi
+	
+	cd ${CRTDIR}/sugarchain-API-addressindex/
+	#check sha256sum hash 
+	if [[ `sha256sum -c sugarchaind.sha256` == "sugarchaind: OK" ]]; then
+		string_limit_check_mark "File sugarchaind sha256 verification passed........." "File sugarchaind sha256 verification passed${GREEN}${CYAN} ........."
+	else
+		string_limit_x_mark "File sugarchaind sha256 verification failed........." "File sugarchaind sha256 verification failed${RED}${CYAN} ........."
+		exit 0
+	fi
+	if [[ `sha256sum -c sugarchain-cli.sha256` == "sugarchain-cli: OK" ]]; then
+		string_limit_x_mark "File sugarchain-cli sha256 verification failed........." "File sugarchain-cli sha256 verification failed${RED}${CYAN} ........."
+	else
+		exit 0
 	fi
 
 	if [[ -d ${CRTDIR}/sugarchain-API-addressindex ]]; then
