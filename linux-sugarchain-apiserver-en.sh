@@ -111,8 +111,9 @@ function Start_sugar_node(){
 		exit 0
 	fi
 	if [[ `sha256sum -c sugarchain-cli.sha256` == "sugarchain-cli: OK" ]]; then
-		string_limit_x_mark "File sugarchain-cli sha256 verification failed........." "File sugarchain-cli sha256 verification failed${RED}${CYAN} ........."
+		string_limit_check_mark "File sugarchain-cli sha256 verification passed........." "File sugarchain-cli sha256 verification passed${RED}${CYAN} ........."
 	else
+		string_limit_x_mark "File sugarchain-cli sha256 verification failed........." "File sugarchain-cli sha256 verification failed${RED}${CYAN} ........."
 		exit 0
 	fi
 
