@@ -75,6 +75,7 @@ function Start_sugar_node(){
 		
 		#Down python
 		if [[ ! -d ${CRTDIR}/Python-3.8.0 ]]; then
+			cd
 			wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
 			tar -xvf Python-3.8.0.tgz
 		fi
@@ -134,6 +135,7 @@ function Start_sugar_node(){
 	
 	if ! curl http://127.0.0.1:5000/info > /dev/null 2>&1; then
 		if [[ ! -d ${CRTDIR}/api-server ]]; then
+			cd
 			git clone https://github.com/sugarchain-project/api-server.git
 		fi
 		
