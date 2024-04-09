@@ -294,7 +294,7 @@ function install_step(){
 	fi
 	
 	if ! ls -lh /swapfile > /dev/null 2>&1; then
-		sudo fallocate -l 8G /swapfile
+		sudo fallocate -l 16G /swapfile
 	fi
 	
 	sudo $* install pwgen
