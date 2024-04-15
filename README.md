@@ -7,32 +7,32 @@
 安卓手机开采<br>
 
 ①下载termux并安装<br>
-```https://wwr.lanzoui.com/iy7ti04z6gda```
+```https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_universal.apk```
 
 ②打开termux后复制此命令粘贴并回车<br>
-```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/smartphones-sugarchain-miner-cn.sh)```
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/smartphones-sugarchain-miner-cn.sh)```
 
 Linux系统开采<br>
 适用系统: Ubuntu Centos<br>
-```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-miner-cn.sh)```
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-miner-cn.sh)```
 
 节点配置最低要求：<br>
 4核8G内存100G硬盘,需要设置16G虚拟内存<br>
 Linux系统节点一键创建<br>
 适用系统: Ubuntu Centos<br>
-```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-node-cn.sh)```
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-node-cn.sh)```
 
 Linux系统API节点一键创建<br>
 适用系统: Ubuntu Centos<br>
 ①运行下面命令输入数字1，自动搭建API节点<br>
-```bash -i <(curl -s https://gitee.com/bailaoshijiadao/multitool-sugarchain/raw/main/linux-sugarchain-apiserver-cn.sh)```
+```bash -i <(curl -s https://raw.githubusercontent.com/bailaoshijiadao/multitool-sugarchain/master/linux-sugarchain-apiserver-cn.sh)```
 
 ②设置域名解析到VPS的公网IP,输入数字8后根据提示输入域名等信息<br>
 [无域名可跳过此步骤,访问IP地址即可,http://IP:5000]<br>
 
 <br>
 如果你觉得这个有用，可以捐助我。<br>
-SUGAR捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
+SUGAR捐助地址: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz (bailaoshi)<br>
 
 </details>
 <details>
@@ -71,7 +71,7 @@ Applicable system: Ubuntu Centos<br>
 
 <br>
 If you find this useful, you can donate it to me.<br>
-SUGAR donation: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0 (bailaoshi)<br>
+SUGAR donation: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz (bailaoshi)<br>
 
 </details>
 <br><br>
