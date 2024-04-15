@@ -253,7 +253,7 @@ do
 	echo -e "${CYAN}7  - Stop SugarChain Node${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******SugarChain creation node script******${NC}"
-	echo -e "${YELLOW}Sponsorship address: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
+	echo -e "${YELLOW}Sponsorship address: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz(bailaoshi)${NC}"
 
 	read -rp "Please enter a numerical option and press Enter: "
 

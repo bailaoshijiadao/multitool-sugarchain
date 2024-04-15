@@ -265,7 +265,7 @@ function Start_sugar_miner(){
 	sleep 5
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
-	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
+	echo -e "${YELLOW}糖捐助地址: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz(bailaoshi)${NC}"
 }
 
 
@@ -341,7 +341,7 @@ do
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******sugarmaker 2.5.0-sugar4 by Kanon******${NC}"
 	echo -e "${YELLOW}适用于糖链和其他Yespower算法的多线程CPU开采${NC}"
-	echo -e "${YELLOW}糖捐助地址: sugar1qg3tyk3uzlet6spq9ewej6uacer0zrll0hk9dc0(bailaoshi)${NC}"
+	echo -e "${YELLOW}糖捐助地址: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz(bailaoshi)${NC}"
 
 	read -rp "请输入数字选项并按回车键: "
 
