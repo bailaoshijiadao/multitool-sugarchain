@@ -115,6 +115,65 @@ function install_step(){
 	fi
 }
 
+function explorer2_domain(){
+	read -p "input your domain,For example explorer2.example.com: " domain
+	
+	#Ubuntu
+	if [[ -f /etc/issue ]]; then
+		system_v=$(cat /etc/issue)
+		if [[ $system_v =~ "Ubuntu" ]]; then
+			echo -e "${YELLOW}apt${NC}"
+			sudo apt-get update
+			sudo apt install nginx snapd -y
+		fi
+	fi
+	
+	#Centos
+	if [[ -f /etc/centos-release ]]; then
+		echo -e "${YELLOW}yum${NC}"
+		sudo yum install nginx -y
+	else 
+		if [[ -f /etc/redhat-release ]]; then
+			echo -e "${YELLOW}yum${NC}"
+			sudo yum install nginx snapd -y
+		fi
+	fi
+	
+	sudo unlink /etc/nginx/sites-enabled/$domain.conf
+	rm -rf /etc/nginx/sites-available/$domain.conf
+	if [[ ! -f /etc/nginx/sites-available/$domain.conf ]]; then
+		cat << EOF >  /etc/nginx/sites-available/$domain.conf
+server {
+    server_name $domain;
+
+    location / {
+        proxy_pass http://localhost:3099;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+
+    location /socket.io {
+        include proxy_params;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_pass http://127.0.0.1:3099/socket.io;
+    }
+
+    listen 80;
+}
+EOF
+	fi
+	
+	sudo ln -s /etc/nginx/sites-available/$domain.conf /etc/nginx/sites-enabled
+	sudo snap install --classic certbot
+	sudo certbot --nginx -d $domain
+}
+
 if ! node -version > /dev/null 2>&1 ; then
 	#Ubuntu
 	if [[ -f /etc/issue ]]; then
@@ -178,6 +237,7 @@ do
 	echo -e "${CYAN}5  - View Blockchain explorer2 logs${NC}"
 	echo -e "${CYAN}6  - View Blockchain explorer2 details${NC}"
 	echo -e "${CYAN}7  - Stop SugarChain Blockchain explorer2${NC}"
+	echo -e "${CYAN}8  - Set your domain${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******SugarChain Blockchain explorer2 script******${NC}"
 	echo -e "${YELLOW}Sponsorship address: sugar1q8d79pk0jyhl92jrmfsrpvuwwg9ycsr20xz93rz(bailaoshi)${NC}"
@@ -218,6 +278,10 @@ do
 	 7)
 		sleep 2
 		pm2 stop sugarchain-blockchain-explorer2
+	 ;;
+	 8)
+		sleep 2
+		explorer2_domain
 	 ;;
 
 		esac
