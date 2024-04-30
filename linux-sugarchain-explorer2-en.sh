@@ -92,7 +92,7 @@ function Start_sugar_explorer(){
 function install_step(){
 
 	if ! figlet -v > /dev/null 2>&1; then
-		echo -e "${ARROW} ${YELLOW}安装 figlet 中 ....${NC}"
+		echo -e "${ARROW} ${YELLOW}Installing figlet ....${NC}"
 		sudo $* install -y figlet > /dev/null 2>&1
 	fi
 	
