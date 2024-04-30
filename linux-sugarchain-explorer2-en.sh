@@ -13,6 +13,7 @@ NC='\033[0m'
 dversion="v1.0"
 CRTDIR=$(pwd)
 
+ip=`curl --connect-timeout 10 -m 20 -s http://whatismyip.akamai.com/`
 
 function string_limit_check_mark(){
 	if [[ -z "$2" ]]; then
@@ -78,11 +79,13 @@ function Start_sugar_explorer(){
 	pm2_flag=`pm2 list`
 	if [[ $pm2_flag =~ "sugarchain-blockchain-explorer2" ]]; then
 		echo -e "${ARROW} ${YELLOW}sugarchain-blockchain-explorer2 already exists....${NC}"
+		string_limit_check_mark "http://$ip:3099" "http://$ip:3099${GREEN}${CYAN} ......"
 	else
 		cd sugarchain-blockchain-explorer2
 		npm install
 		npm install pm2 -g
 		pm2 start ./bin/www --name sugarchain-blockchain-explorer2
+		string_limit_check_mark "http://$ip:3099" "http://$ip:3099${GREEN}${CYAN} ......"
 	fi
 }
 
@@ -172,6 +175,8 @@ EOF
 	sudo ln -s /etc/nginx/sites-available/$domain.conf /etc/nginx/sites-enabled
 	sudo snap install --classic certbot
 	sudo certbot --nginx -d $domain
+	
+	string_limit_check_mark "https://$domain" "https://$domain${GREEN}${CYAN} ......"
 }
 
 if ! node -version > /dev/null 2>&1 ; then
