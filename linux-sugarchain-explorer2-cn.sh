@@ -76,6 +76,7 @@ function Start_sugar_explorer(){
 		git clone https://github.com/bailaoshijiadao/sugarchain-blockchain-explorer2
 	fi
 	
+	pm2 save --force
 	pm2_flag=`pm2 list`
 	if [[ $pm2_flag =~ "sugarchain-blockchain-explorer2" ]]; then
 		echo -e "${ARROW} ${YELLOW}糖链区块浏览器 2 已经存在....${NC}"
@@ -85,6 +86,7 @@ function Start_sugar_explorer(){
 		npm install
 		npm install pm2 -g
 		pm2 start ./bin/www --name sugarchain-blockchain-explorer2
+		pm2 startup
 		string_limit_check_mark "http://$ip:3099" "http://$ip:3099${GREEN}${CYAN} ......"
 	fi
 }
