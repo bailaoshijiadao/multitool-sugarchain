@@ -76,15 +76,17 @@ function Start_sugar_webwallet(){
 		git clone https://github.com/bailaoshijiadao/sugarchain-web-wallet
 	fi
 	
+	pm2 save --force
 	pm2_flag=`pm2 list`
 	if [[ $pm2_flag =~ "sugarchain-web-wallet" ]]; then
-		echo -e "${ARROW} ${YELLOW}sugarchain-blockchain-explorer2 already exists....${NC}"
+		echo -e "${ARROW} ${YELLOW}sugarchain-web-wallet already exists....${NC}"
 		string_limit_check_mark "http://$ip:3088" "http://$ip:3088${GREEN}${CYAN} ......"
 	else
 		cd sugarchain-web-wallet
 		npm install
 		npm install pm2 -g
 		pm2 start ./bin/www --name sugarchain-web-wallet
+		pm2 startup
 		string_limit_check_mark "http://$ip:3088" "http://$ip:3088${GREEN}${CYAN} ......"
 	fi
 }
