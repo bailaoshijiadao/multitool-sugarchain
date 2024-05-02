@@ -48,7 +48,7 @@ function string_limit_x_mark(){
 function Start_sugar_explorer(){
 	#install nvm
 	if ! nvm --version > /dev/null 2>&1; then
-		echo -e "${ARROW} ${YELLOW}Installing nvm ....${NC}"
+		echo -e "${ARROW} ${YELLOW}安装 nvm 中 ....${NC}"
 		unset NVM_DIR
 		cd
 		curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.9/install.sh | bash
@@ -237,13 +237,13 @@ do
 	echo -e "${GREEN}System: Linux Ubuntu Centos${NC}"
 	echo -e "${GREEN}Author: bailaoshi${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
-	echo -e "${CYAN}1  - 启动糖链区块浏览器2 [Including installation process]${NC}"
+	echo -e "${CYAN}1  - 启动糖链区块浏览器2 [包含安装过程]${NC}"
 	echo -e "${CYAN}2  - 查看区块浏览器2资源的使用情况${NC}"
 	echo -e "${CYAN}3  - 删除区块浏览器2的PM2应用程序${NC}"
 	echo -e "${CYAN}4  - 区块浏览器2重新启动${NC}"
 	echo -e "${CYAN}5  - 查看区块浏览器2运行日志${NC}"
 	echo -e "${CYAN}6  - 查看区块浏览器2运行详细信息${NC}"
-	echo -e "${CYAN}7  - 停止查看区块浏览器2${NC}"
+	echo -e "${CYAN}7  - 停止区块浏览器2${NC}"
 	echo -e "${CYAN}8  - 设置区块浏览器2的域名${NC}"
 	echo -e "${YELLOW}===========================================================${NC}"
 	echo -e "${YELLOW}******糖链一键创建 explorer2 区块浏览器脚本******${NC}"
