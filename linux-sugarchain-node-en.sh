@@ -108,7 +108,7 @@ function Stop_sugar_node(){
 function install_step(){
 	if ! figlet -v > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}Installing figlet ....${NC}"
-		sudo $* install -y figlet > /dev/null 2>&1
+		sudo $* install -y figlet
 	fi
 
 
