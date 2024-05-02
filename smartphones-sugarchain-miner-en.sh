@@ -11,7 +11,6 @@ NC='\033[0m'
 dversion="v1.0"
 CRTDIR=$(pwd)
 
-
 function string_limit_check_mark(){
 	if [[ -z "$2" ]]; then
 		string="$1"
