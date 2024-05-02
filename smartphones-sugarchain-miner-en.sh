@@ -298,7 +298,7 @@ function see_screen(){
 
 if ! figlet -v > /dev/null 2>&1; then
 	echo -e "${ARROW} ${YELLOW}Installing figlet ....${NC}"
-	pkg install -y figlet > /dev/null 2>&1
+	pkg install -y figlet
 fi
 
 
