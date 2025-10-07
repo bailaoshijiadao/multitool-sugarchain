@@ -46,6 +46,16 @@ function string_limit_x_mark(){
 }
 
 function Start_sugar_webwallet(){
+	CRON_LINE="cd sugarchain-web-wallet && pm2 start ./bin/www --name sugarchain-web-wallet"
+	CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
+	if [ $CRON_EXISTS -eq 0 ]
+	then
+		crontab -l | { cat; echo "@reboot $CRON_LINE"; } | crontab -
+		string_limit_check_mark "Startup task completed........." "Startup task completed.........${GREEN}${CYAN} ........."
+	else
+		string_limit_check_mark "Startup task already exists........." "Startup task already exists${GREEN}${CYAN} ........."
+	fi
+	
 	#install nvm
 	if ! nvm --version > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}Installing nvm ....${NC}"

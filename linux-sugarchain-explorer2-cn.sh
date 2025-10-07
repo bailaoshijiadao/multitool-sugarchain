@@ -46,6 +46,16 @@ function string_limit_x_mark(){
 }
 
 function Start_sugar_explorer(){
+	CRON_LINE="cd sugarchain-blockchain-explorer2 && pm2 start ./bin/www --name sugarchain-blockchain-explorer2"
+	CRON_EXISTS=$(crontab -l | grep "$CRON_LINE" | wc -l)
+	if [ $CRON_EXISTS -eq 0 ]
+	then
+		crontab -l | { cat; echo "@reboot $CRON_LINE"; } | crontab -
+		string_limit_check_mark "开机启动任务设置完成........." "开机启动任务设置完成.........${GREEN}${CYAN} ........."
+	else
+		string_limit_check_mark "已有开机启动任务........." "已有开机启动任务${GREEN}${CYAN} ........."
+	fi
+	
 	#install nvm
 	if ! nvm --version > /dev/null 2>&1; then
 		echo -e "${ARROW} ${YELLOW}安装 nvm 中 ....${NC}"
