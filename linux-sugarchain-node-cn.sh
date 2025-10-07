@@ -54,6 +54,7 @@ rpcallowip=127.0.0.1
 addressindex=1
 txindex=1
 spentindex=1
+printtoconsole=1
 
 addnode=172.7.16.63
 addnode=211.216.3.196
